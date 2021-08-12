@@ -6,6 +6,7 @@
     align-items: center;
     justify-content: space-around;
     background: #FCFBFC;
+    transition: all 300ms ease-in-out;
 }
 
 .cross {

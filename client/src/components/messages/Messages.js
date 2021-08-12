@@ -1,13 +1,20 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { IconContext } from "react-icons";
 import { RiSendPlaneFill } from "react-icons/ri";
+import { StyleContext } from "../../context/StyleContext";
 import Header from "./header/Header";
 import s from "./Messages.module.css";
 
 const Messages = () => {
+  const { messagesWidth } = useContext(StyleContext);
   const [active, setActive] = useState(true);
   return (
-    <div className={s.messages}>
+    <div
+      className={s.messages}
+      style={{
+        width: messagesWidth && "66%",
+      }}
+    >
       <Header active={true} />
       <div className={s.messages__content}>
         <Message active={active} />

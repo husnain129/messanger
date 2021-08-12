@@ -1,17 +1,33 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { FaFacebookF } from "react-icons/fa";
-import { ImCross } from "react-icons/im";
+import { StyleContext } from "../../context/StyleContext";
 import s from "./Profile.module.css";
 const Profile = () => {
+  const { messagesWidth } = useContext(StyleContext);
+  const [dis, setDis] = useState("none");
+  useEffect(() => {
+    messagesWidth
+      ? setDis("none")
+      : setTimeout(() => {
+          setDis("flex");
+        }, 300);
+  }, [messagesWidth]);
+
   return (
-    <div className={s.profile}>
-      <div className={s.cross}>
+    <div
+      className={s.profile}
+      style={{
+        width: messagesWidth && "0%",
+        display: dis,
+      }}
+    >
+      {/* <div className={s.cross}>
         <IconContext.Provider value={{ color: "black" }}>
           <ImCross style={{ margin: "20px" }} />
         </IconContext.Provider>
-      </div>
+      </div> */}
       <div className={s.imgContainer}>
         <img
           src="https://wallpaperaccess.com/full/275931.jpg"

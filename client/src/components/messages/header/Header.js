@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useContext } from "react";
 import { IconContext } from "react-icons";
-import { FiMoreHorizontal } from "react-icons/fi";
+import { HiLockClosed, HiLockOpen } from "react-icons/hi";
+import { StyleContext } from "../../../context/StyleContext";
 import s from "./Header.module.css";
 const Header = ({ active }) => {
+  const { messagesWidth, setMessagesWidth } = useContext(StyleContext);
   return (
     <div className={s.container}>
       <div className={s.header}>
@@ -26,7 +28,21 @@ const Header = ({ active }) => {
         </div>
         <div className={s.header_right}>
           <IconContext.Provider value={{ className: s.icons }}>
-            <FiMoreHorizontal size={26} />
+            {messagesWidth ? (
+              <>
+                <HiLockClosed
+                  size={26}
+                  onClick={() => setMessagesWidth(!messagesWidth)}
+                />
+              </>
+            ) : (
+              <>
+                <HiLockOpen
+                  size={26}
+                  onClick={() => setMessagesWidth(!messagesWidth)}
+                />
+              </>
+            )}
           </IconContext.Provider>
         </div>
       </div>
