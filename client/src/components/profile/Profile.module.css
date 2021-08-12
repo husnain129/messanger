@@ -1,0 +1,151 @@
+.profile {
+    width: 24%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-around;
+    background: #FCFBFC;
+}
+
+.cross {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+
+.imgContainer {
+    position: relative;
+    width: 100px;
+    height: 100px;
+}
+
+.img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+    user-select: none;
+}
+
+.imgDot {
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    border: 5px solid #fff;
+    top: 0;
+    left: 0;
+    border-radius: 50%;
+    background-color: #3DD063;
+}
+
+.Profile_info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 10px;
+    gap: 10px;
+}
+
+.Profile_info>p {
+    text-align: center;
+}
+
+.Profile_info__title {
+    font-size: 13pt;
+    font-weight: 700;
+}
+
+.Profile_info__city {
+    font-size: 11pt;
+    font-weight: 400;
+    color: #8f8f91;
+
+}
+
+.Profile_info__desc {
+    font-size: 11pt;
+}
+
+.iconContainer {
+    width: 85%;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    justify-content: center;
+}
+
+.icon {
+    color: #fff;
+    background: red;
+    padding: 7px;
+    border-radius: 50%;
+    cursor: pointer;
+}
+
+.twitter {
+    background: #29A3ED;
+}
+
+.fb {
+    background: #3C5996;
+}
+
+.instagram {
+    background: #d6249f;
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 4%, #fd5949 40%, #d6249f 50%, #285AEB 80%);
+}
+
+.line {
+    height: 1px;
+    width: 80%;
+    background: #ccc;
+}
+
+.contact {
+    width: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    gap: 10px;
+}
+
+.contact>p {
+    font-size: 11pt;
+}
+
+.contact>p>span {
+    color: #8f8f91;
+    margin-left: 10px;
+}
+
+.mediaContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 85%;
+}
+
+.mediaImage {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.mediaContainer>p {
+    font-weight: 600;
+    color: #8f8f91;
+    transform: translateY(-10px);
+}
+
+.mediaImage>img {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}

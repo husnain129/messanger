@@ -67,8 +67,8 @@
 
 .card {
     margin-top: 20px;
-    overflow-y: scroll;
     height: 100%;
+    overflow-y: scroll;
     scrollbar-color: #d4aa70 #e4e4e402;
     scrollbar-width: thin;
 }

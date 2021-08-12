@@ -1,4 +1,96 @@
 .messages {
     height: 100%;
+    /* width: 66%; */
     width: 42%;
+    border-right: 1px solid rgba(204, 204, 204, 0.37);
+}
+
+.messages__content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    height: 79%;
+    overflow-y: scroll;
+    scrollbar-color: #d4aa70 #e4e4e402;
+    scrollbar-width: thin;
+}
+
+
+.msg {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    width: 90%;
+    margin-top: 10px;
+}
+
+
+.own {
+    align-items: flex-end;
+}
+
+.msgVal {
+    padding: 10px 15px;
+    border-radius: 20px;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.192);
+    background: #fff;
+    font-size: 11pt;
+}
+
+.msgOwn {
+    background: #F34A4A;
+    color: #fff;
+}
+
+.msgTime {
+    padding-top: 3px;
+    font-weight: 300;
+    color: #9d9d9d;
+    font-size: 8pt;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.inputContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 8.8%;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.068);
+
+}
+
+.input {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 70%;
+    height: 40px;
+    background: #fff;
+    box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.192);
+    border-radius: 20px;
+}
+
+.input_msg {
+    width: 70%;
+    height: 40px;
+    background: #fff;
+    border: none;
+    outline: none;
+    border-radius: 20px;
+    padding-left: 15px;
+    color: #686767;
+}
+
+
+.icons {
+    margin-right: 1px;
+    padding: 8px;
+    background: red;
+    border-radius: 50%;
+    color: #fff;
+    cursor: pointer;
 }

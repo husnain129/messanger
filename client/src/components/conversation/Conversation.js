@@ -31,7 +31,7 @@ const Conversation = () => {
             </p>
           </div>
           <div className={s.l_right}>
-            <p style={{ color: "rgb(131, 121, 121)" }}>Add New</p>
+            <p style={{ color: "#fff" }}>Add New</p>
             <div className={s.l_right__plus}>
               <HiPlus />
             </div>
