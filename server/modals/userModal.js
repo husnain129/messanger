@@ -4,14 +4,6 @@ const bcrypt = require("bcryptjs");
 
 const userSchema = new mongoose.Schema(
   {
-    firstName: {
-      type: String,
-      required: [true, "Please tell us your first name"],
-    },
-    lastName: {
-      type: String,
-      required: [true, "Please tell us your last name"],
-    },
     username: {
       type: String,
       required: [true, "Please tell us your username"],
@@ -38,23 +30,6 @@ const userSchema = new mongoose.Schema(
         message: "Password are not the same!",
       },
     },
-    isAdmin: {
-      type: Boolean,
-      required: true,
-      default: false,
-    },
-    image: {
-      type: String,
-      default:
-        "https://i.pinimg.com/736x/89/90/48/899048ab0cc455154006fdb9676964b3.jpg",
-    },
-    gender: {
-      type: String,
-      enum: ["male", "female"],
-      required: [true, "Please enter your gender"],
-    },
-
-    address: String,
     joined: { type: Date, default: Date.now() },
   },
   {

@@ -6,7 +6,7 @@ const auth = require("../middleware/authMiddleware");
 router
   .route("/")
   .post(userController.registerUser)
-  .get(auth.protect, auth.admin, userController.getUser);
+  .get(userController.getAllUsers);
 
 router.route("/login").post(userController.login);
 
@@ -18,10 +18,5 @@ router
 router
   .route("/updatePassword")
   .patch(auth.protect, userController.updatePassword);
-router
-  .route("/:id")
-  .delete(auth.protect, userController.deleteUser)
-  .get(auth.protect, auth.admin, userController.getUserByIdByAdmin)
-  .patch(auth.protect, auth.admin, userController.updateUserByAdmin);
 
 module.exports = router;

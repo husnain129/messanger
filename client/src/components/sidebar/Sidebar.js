@@ -32,7 +32,9 @@ const Sidebar = () => {
             </Link>
           </IconContext.Provider>
           <IconContext.Provider value={{ className: s.icons }}>
-            <AiFillSetting size={27} />
+            <Link to="/editProfile">
+              <AiFillSetting size={27} />
+            </Link>
           </IconContext.Provider>
         </div>
         <div className={s.switchContainer}>

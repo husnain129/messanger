@@ -3,12 +3,13 @@ import Sidebar from "./components/sidebar/Sidebar";
 import s from "./Global.module.css";
 import Login from "./pages/Auth/Login/Login";
 import SignUp from "./pages/Auth/SignUp/SignUp";
+import EditProfile from "./pages/editProfile/EditProfile";
 import Home from "./pages/Home";
 import Messanger from "./pages/Messanger";
 import PrivateRoute from "./PrivateRoute";
 
 function App() {
-  const token = "";
+  const token = "erdf";
 
   return (
     <div className={s.layout}>
@@ -18,6 +19,7 @@ function App() {
         <Route path="/auth/signUp" component={SignUp} />
         <PrivateRoute path="/" component={Home} />
         <PrivateRoute path="/messanger" component={Messanger} />
+        <PrivateRoute path="/editProfile" component={EditProfile} />
       </Router>
     </div>
   );

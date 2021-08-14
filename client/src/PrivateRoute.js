@@ -2,7 +2,7 @@ import React from "react";
 import { Redirect, Route } from "react-router-dom";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const token = "";
+  const token = "sadsd";
   return (
     <Route
       {...rest}

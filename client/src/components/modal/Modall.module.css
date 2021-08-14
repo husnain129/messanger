@@ -1,0 +1,102 @@
+.modal_header {
+    height: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 10px;
+}
+
+.modal_text {
+    font-size: 17pt;
+    font-weight: 400;
+}
+
+.modal_body {
+    display: flex;
+    align-items: flex-start;
+    height: 58vh;
+    flex: 1;
+}
+
+.modal_bl {
+    padding-top: 5vh;
+    height: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 6vh;
+    flex: .3;
+    border-right: 1px solid #ccc;
+}
+
+.modal_br {
+    padding-top: 5vh;
+    height: inherit;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding-left: 2vw;
+    gap: 1.5vw;
+    flex-wrap: wrap;
+    flex: .7;
+}
+
+.bl_image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 150px;
+    height: 150px;
+    border-radius: 5px;
+    border: 2px dotted rgb(102, 100, 100);
+    cursor: pointer;
+}
+
+.br_image {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    border-radius: 5px;
+    border: 2px dotted rgb(102, 100, 100);
+    cursor: pointer;
+}
+
+.update_small_img {
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.update_icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 100px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: absolute;
+    z-index: 999;
+    opacity: 0;
+    transition: opacity 300ms ease-in-out;
+}
+
+.update_small_img:hover .update_icon {
+    opacity: 1;
+    background: rgba(255, 255, 255, 0.048);
+}
+
+.update_small_img:hover>img {
+    filter: blur(1px)
+}

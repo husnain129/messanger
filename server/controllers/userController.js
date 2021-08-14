@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
 var moment = require("moment");
 
 // @desc  Auth user & get token
-// @route POST /api/users/login
+// @route POST /api/users/v1/login
 // @access  public
 
 exports.login = catchAsync(async (req, res, next) => {
@@ -16,11 +16,8 @@ exports.login = catchAsync(async (req, res, next) => {
   if (user && (await user.matchPassword(password))) {
     res.status(200).json({
       _id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastname,
       username: user.username,
       email: user.email,
-      isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
   } else {
@@ -37,40 +34,22 @@ exports.login = catchAsync(async (req, res, next) => {
 // @access  Public
 
 exports.registerUser = catchAsync(async (req, res, next) => {
-  const {
-    firstName,
-    lastName,
-    username,
-    email,
-    password,
-    passwordConfirm,
-    address,
-    gender,
-  } = req.body;
+  const { username, email, password, passwordConfirm } = req.body;
   const userExist = await User.findOne({ email });
   if (userExist) return next(new AppError("User already exists", 404));
   const user = await User.create({
-    firstName,
-    lastName,
     username,
     email,
     password,
     passwordConfirm,
-    address,
-    gender,
   });
   if (user) {
     res.status(200).json({
       status: "success",
       id: user._id,
-      firstName: user.firstName,
-      lastName: user.lastName,
       username: user.username,
       email: user.email,
-      image: user.image,
-      address: user.address,
       joined: moment(user.joined).format("YYYY-MM-DD"),
-      isAdmin: user.isAdmin,
       token: generateToken(user._id),
     });
   } else {
@@ -79,7 +58,7 @@ exports.registerUser = catchAsync(async (req, res, next) => {
 });
 
 // @desc  Get user profile
-// @route GET /api/users/profile
+// @route GET /api/users/v1/profile
 // @access  Private
 
 exports.getUserProfile = catchAsync(async (req, res, next) => {
@@ -89,33 +68,18 @@ exports.getUserProfile = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: "success",
     _id: user._id,
-    firstName: user.firstName,
-    lastName: user.lastName,
     username: user.username,
-    image: user.image,
     email: user.email,
     joined: moment(user.joined).format("YYYY-MM-DD"),
-    address: user.address,
-    isAdmin: user.isAdmin,
   });
 });
 // @desc  Update profile
-// @route PATCH /api/users/profile
+// @route PATCH /api/users/v1/profile
 // @access  Private
 
 exports.updateUserProfile = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
-  const filteredBody = filterObj(
-    req.body,
-    user,
-    "firstName",
-    "lastName",
-    "username",
-    "email",
-    "address",
-    "image",
-    "bookIssued"
-  );
+  const filteredBody = filterObj(req.body, user, "username", "email");
   const updateUser = await User.findByIdAndUpdate(req.user._id, filteredBody, {
     new: true,
     runValidators: true,
@@ -127,7 +91,7 @@ exports.updateUserProfile = catchAsync(async (req, res, next) => {
 });
 
 // @desc  Update Passowrd
-// @route PATCH /api/users/updatePassword
+// @route PATCH /api/users/v1/updatePassword
 // @access  Private
 
 exports.updatePassword = catchAsync(async (req, res, next) => {
@@ -162,71 +126,10 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
   }
 });
 
-// @desc  Get Admin
-// @route GET /api/users
-// @access  Private/Admin
-
-exports.getUser = catchAsync(async (req, res, next) => {
-  const user = await User.find({}).select("-password");
+exports.getAllUsers = catchAsync(async (req, res, next) => {
+  const users = await User.find({}).select("-password");
   res.status(200).json({
     status: "success",
-    user,
-  });
-});
-
-// @desc  Delte user
-// @route DELETE /api/users/:id
-// @access  Private/Admin
-
-exports.deleteUser = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id);
-  if (!user) return next(new AppError("User not found", 404));
-  await user.remove();
-  res.status(200).json({
-    status: "success",
-    message: "User deleted successfully",
-  });
-});
-
-// @desc  Get user
-// @route GET /api/users/:id
-// @access  Private/Admin
-
-exports.getUserByIdByAdmin = catchAsync(async (req, res, next) => {
-  const user = await User.findById(req.params.id).select("-password");
-  if (!user) return next(new AppError("User not found", 404));
-  res.status(200).json({
-    status: "success",
-    user,
-  });
-});
-
-// @desc  Update User
-// @route PUT /api/users/:id
-// @access  Private/Admin
-
-exports.updateUserByAdmin = catchAsync(async (req, res, next) => {
-  const filteredBody = filterObj(
-    req.body,
-    user,
-    "firstName",
-    "lastName",
-    "username",
-    "email",
-    "isAdmin"
-  );
-  const updateUser = await User.findByIdAndUpdate(req.params.id, filteredBody, {
-    new: true,
-    runValidators: true,
-  });
-
-  res.status(200).json({
-    id: updateUser._id,
-    firstName: updateUser.firstName,
-    lastName: updateUser.lastName,
-    username: updateUser.username,
-    email: updateUser.email,
-    fine: updateUser.fine,
-    isAdmin: updateUser.isAdmin,
+    data: users,
   });
 });
