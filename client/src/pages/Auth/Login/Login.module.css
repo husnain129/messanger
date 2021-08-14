@@ -1,0 +1,142 @@
+.container {
+    width: 100%;
+    height: 85vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form {
+    height: 70%;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5vh;
+    padding: 0 5vw;
+    border: 1px solid #ccc;
+}
+
+
+.name_input_container {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.form_name>p {
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    font-size: 15pt;
+    font-weight: 300;
+}
+
+.form_name>p::after {
+    content: '*';
+    padding-left: 3px;
+}
+
+.name_i {
+    width: 48%;
+    height: 50px;
+    border: 1px solid #CCCCCC;
+    background: #cccccc1e;
+    padding: 10px;
+    font-size: 13pt;
+}
+
+.flex {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2vh;
+    width: 100%;
+}
+
+.flex>p {
+    margin: 0;
+    width: 100%;
+    display: flex;
+    align-items: flex-start;
+    font-size: 14pt;
+    font-weight: 300;
+    position: relative;
+    left: -10px;
+}
+
+.flex>p::after {
+    content: '*';
+    padding-left: 3px;
+}
+
+.input_long {
+    width: 100%;
+    height: 4vh;
+    padding: 10px;
+    border: 1px solid #CCCCCC;
+    font-size: 13pt;
+    background: #cccccc1e;
+}
+
+.btn {
+    margin-top: 3vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 7vh;
+    background-color: #000;
+    width: 105%;
+    color: #fff;
+    transition: all 300ms ease-in-out;
+    border: 1px solid #000;
+    cursor: pointer;
+    border-radius: 5px;
+    user-select: none;
+}
+
+.btn:hover {
+    background-color: #fff;
+    color: #000;
+}
+
+@media only screen and (max-width: 805px) {
+    .para {
+        gap: 5vh;
+        padding: 5vh 3vw;
+    }
+
+    .form {
+        gap: 4vh;
+        padding: 2vh 3vw;
+    }
+
+}
+
+@media only screen and (max-width: 780px) {
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: auto;
+    }
+
+    .para {
+        width: 100%;
+        gap: 4vh;
+        padding: 8vh 8vw;
+        height: 70%;
+    }
+
+
+    .form {
+        width: 100%;
+        gap: 5vh;
+        padding: 0 5vw;
+    }
+}

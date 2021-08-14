@@ -3,6 +3,7 @@ import { IconContext } from "react-icons";
 import { AiFillHome, AiFillSetting } from "react-icons/ai";
 import { BsFillInboxFill } from "react-icons/bs";
 import { IoSunny } from "react-icons/io5";
+import { Link } from "react-router-dom";
 import s from "./Sidebar.module.css";
 const Sidebar = () => {
   return (
@@ -18,13 +19,17 @@ const Sidebar = () => {
         </div>
         <div className={s.iconContainer}>
           <IconContext.Provider value={{ className: s.icons }}>
-            <AiFillHome size={27} />
+            <Link to="/">
+              <AiFillHome size={27} />
+            </Link>
           </IconContext.Provider>
           <IconContext.Provider
             value={{ className: s.icons }}
           ></IconContext.Provider>
           <IconContext.Provider value={{ className: s.icons }}>
-            <BsFillInboxFill size={27} />
+            <Link to="messanger">
+              <BsFillInboxFill size={27} />
+            </Link>
           </IconContext.Provider>
           <IconContext.Provider value={{ className: s.icons }}>
             <AiFillSetting size={27} />

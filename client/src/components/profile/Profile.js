@@ -23,11 +23,6 @@ const Profile = () => {
         display: dis,
       }}
     >
-      {/* <div className={s.cross}>
-        <IconContext.Provider value={{ color: "black" }}>
-          <ImCross style={{ margin: "20px" }} />
-        </IconContext.Provider>
-      </div> */}
       <div className={s.imgContainer}>
         <img
           src="https://wallpaperaccess.com/full/275931.jpg"

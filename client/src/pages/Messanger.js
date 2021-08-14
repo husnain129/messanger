@@ -7,7 +7,7 @@ import s from "../Global.module.css";
 
 const Messanger = () => {
   return (
-    <div className={s.messanger}>
+    <div className={s.layout}>
       <Sidebar />
       <Conversation />
       <Messages />
