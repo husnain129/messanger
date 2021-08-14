@@ -1,7 +1,6 @@
 .messages {
     height: 100%;
-    /* width: 66%; */
-    width: 42%;
+    width: 44%;
     border-right: 1px solid rgba(204, 204, 204, 0.37);
     z-index: 999;
     background: #fff;

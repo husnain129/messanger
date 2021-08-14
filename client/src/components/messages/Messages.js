@@ -12,7 +12,7 @@ const Messages = () => {
     <div
       className={s.messages}
       style={{
-        width: messagesWidth && "66%",
+        width: messagesWidth && "70%",
       }}
     >
       <Header active={true} />

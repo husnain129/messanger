@@ -5,3 +5,12 @@
     top: 0;
     bottom: 0;
 }
+
+.container {
+    width: 94%;
+    height: 100%;
+}
+
+.messanger {
+    display: flex;
+}

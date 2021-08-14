@@ -4,9 +4,10 @@ import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { FaFacebookF } from "react-icons/fa";
 import { StyleContext } from "../../context/StyleContext";
 import s from "./Profile.module.css";
-const Profile = () => {
+const Profile = ({ history }) => {
   const { messagesWidth } = useContext(StyleContext);
   const [dis, setDis] = useState("none");
+
   useEffect(() => {
     messagesWidth
       ? setDis("none")
@@ -14,6 +15,10 @@ const Profile = () => {
           setDis("flex");
         }, 300);
   }, [messagesWidth]);
+
+  useEffect(() => {
+    setDis("flex");
+  }, [history]);
 
   return (
     <div
