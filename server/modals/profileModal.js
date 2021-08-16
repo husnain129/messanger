@@ -3,6 +3,11 @@ const Schema = mongoose.Schema;
 
 const profileSchema = new Schema(
   {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     name: {
       first: String,
       last: String,
@@ -13,7 +18,7 @@ const profileSchema = new Schema(
     country: String,
     social: [String],
     phone: String,
-    dob: Date,
+    dob: String,
     gender: {
       type: String,
       enum: ["male", "female"],

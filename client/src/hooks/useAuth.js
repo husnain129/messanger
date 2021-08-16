@@ -7,6 +7,15 @@ const useAuth = () => {
       "Content-Type": "application/json",
     },
   };
+  const token = localStorage.getItem("token")
+    ? JSON.parse(localStorage.getItem("token"))
+    : "";
+  const authConfig = {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+  };
   return {
     login: async (dataObj) => {
       try {
@@ -24,6 +33,14 @@ const useAuth = () => {
         return data;
       } catch (error) {
         console.log("registerUser error = ", error);
+      }
+    },
+    updateProfile: async (dataObj) => {
+      try {
+        const data = await api.patch("/profile", dataObj, authConfig);
+        return data;
+      } catch (error) {
+        console.log("update profile error = ", error);
       }
     },
   };

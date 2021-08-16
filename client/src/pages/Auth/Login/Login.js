@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { Link } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
 import useAuth from "../../../hooks/useAuth";
 import s from "./Login.module.css";
@@ -54,6 +55,14 @@ function Login({ history }) {
         </div>
         <div className={s.btn} onClick={handleSubmit}>
           <p>Login</p>
+        </div>
+        <div className={s.optional}>
+          <p>
+            If new user then click
+            <Link to="/auth/signUp" className={s.optionalLink}>
+              <span>register</span>
+            </Link>
+          </p>
         </div>
       </div>
     </div>

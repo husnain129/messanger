@@ -22,6 +22,14 @@ const useApi = () => {
         console.log(error);
       }
     },
+    patch: async (url, value, config) => {
+      try {
+        const { data } = await axios.patch(baseUrl + url, value, config);
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   };
 };
 

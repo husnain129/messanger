@@ -7,6 +7,7 @@ const xss = require("xss-clean");
 const userRouter = require("./routes/userRoute");
 const conversationRouter = require("./routes/conversationRoute");
 const messageRouter = require("./routes/messageRoute");
+const profileRouter = require("./routes/profileRoute");
 const imageUpload = require("./utils/imageUpload");
 const cors = require("cors");
 const AppError = require("./utils/appError");
@@ -36,6 +37,7 @@ app.use(fileUpload());
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/conversations", conversationRouter);
 app.use("/api/v1/messages", messageRouter);
+app.use("/api/v1/profile", profileRouter);
 app.post("/api/v1/image", imageUpload.Image);
 
 app.all("*", (req, res, next) => {

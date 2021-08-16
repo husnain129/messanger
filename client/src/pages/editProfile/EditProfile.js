@@ -25,7 +25,7 @@ function EditProfile({ children }) {
         (async () => {
           let formData = new FormData();
           formData.append("image", el.img);
-          await api.Image(formData).then((d) => console.log(d));
+          await api.Image(formData).then((d) => console.log("gallery = ", d));
         })();
       });
       setSImage([]);
@@ -35,7 +35,7 @@ function EditProfile({ children }) {
       let formData = new FormData();
       formData.append("image", image);
       (async () => {
-        await api.Image(formData).then((d) => console.log(d));
+        await api.Image(formData).then((d) => console.log("profile = ", d));
       })();
     }
     setLImage(null);

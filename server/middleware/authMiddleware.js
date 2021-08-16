@@ -21,11 +21,3 @@ exports.protect = catchAsync(async (req, res, next) => {
   }
   if (!token) return next(new AppError("Not Authorizrd Token failed", 401));
 });
-
-exports.admin = (req, res, next) => {
-  if (req.user && req.user.isAdmin) {
-    next();
-  } else {
-    return next(new AppError("Not Authorizrd Token failed", 401));
-  }
-};

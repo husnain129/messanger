@@ -1,4 +1,5 @@
 const User = require("../modals/userModal");
+const Profile = require("../modals/profileModal");
 const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/appError");
 const generateToken = require("./../utils/generateToken");
@@ -15,7 +16,7 @@ exports.login = catchAsync(async (req, res, next) => {
   const user = await User.findOne({ email });
   if (user && (await user.matchPassword(password))) {
     res.status(200).json({
-      status:"success",
+      status: "success",
       _id: user._id,
       username: user.username,
       email: user.email,
@@ -128,7 +129,8 @@ exports.updatePassword = catchAsync(async (req, res, next) => {
 });
 
 exports.getAllUsers = catchAsync(async (req, res, next) => {
-  const users = await User.find({}).select("-password");
+  const users = await User.find({}).select("-password").populate("profile");
+
   res.status(200).json({
     status: "success",
     data: users,
