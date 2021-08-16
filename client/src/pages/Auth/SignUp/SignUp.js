@@ -1,6 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../../context/AuthContext";
+import useAuth from "../../../hooks/useAuth";
 import s from "./SignUp.module.css";
-function SignUp() {
+function SignUp({ history }) {
+  const { setToken } = useContext(AuthContext);
+  const api = useAuth();
   const [user, setUser] = useState({
     firstName: "",
     lastName: "",
@@ -28,12 +32,14 @@ function SignUp() {
   };
 
   const handleSubmit = () => {
-    console.log("firstName = ", firstName);
-    console.log("lastName = ", lastName);
-    console.log("username = ", username);
-    console.log("email = ", email);
-    console.log("password = ", password);
-    console.log("confirmPassword = ", confirmPassword);
+    (async () => {
+      await api.login(user).then((d) => {
+        if ((d.status = "success")) {
+          setToken(d.token);
+          history.push("/editProfile");
+        }
+      });
+    })();
   };
 
   return (

@@ -1,7 +1,11 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { AuthContext } from "../../../context/AuthContext";
+import useAuth from "../../../hooks/useAuth";
 import s from "./Login.module.css";
 
-function Login() {
+function Login({ history }) {
+  const api = useAuth();
+  const { setToken } = useContext(AuthContext);
   const [user, setUser] = useState({
     email: "",
     password: "",
@@ -13,9 +17,16 @@ function Login() {
     const { name, value } = e.target;
     setUser((prev) => ({ ...prev, [name]: value }));
   };
+
   const handleSubmit = () => {
-    console.log("email = ", email);
-    console.log("password = ", password);
+    (async () => {
+      await api.login(user).then((d) => {
+        if ((d.status = "success")) {
+          setToken(d.token);
+          history.push("/");
+        }
+      });
+    })();
   };
 
   return (

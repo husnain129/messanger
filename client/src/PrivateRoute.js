@@ -1,12 +1,20 @@
-import React from "react";
-import { Redirect, Route } from "react-router-dom";
+import React, { useContext } from "react";
+import { Redirect, Route, useHistory } from "react-router-dom";
+import { AuthContext } from "./context/AuthContext";
 
 const PrivateRoute = ({ component: Component, ...rest }) => {
-  const token = "sadsd";
+  const history = useHistory();
+  const { token } = useContext(AuthContext);
+  const currentLocation = window.location.pathname;
+  const endPoints = ["/", "/messanger", "/editProfile"];
+  endPoints.forEach((l) => {
+    if (token && l !== currentLocation) {
+      history.push("/");
+    }
+  });
   return (
     <Route
       {...rest}
-      exact
       render={(props) =>
         token ? (
           <Component {...props} />

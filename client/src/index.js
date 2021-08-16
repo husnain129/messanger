@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./App";
+import { AuthProvider } from "./context/AuthContext";
 import { StyleProvider } from "./context/StyleContext";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -8,7 +9,9 @@ import reportWebVitals from "./reportWebVitals";
 ReactDOM.render(
   <React.StrictMode>
     <StyleProvider>
-      <App />
+      <AuthProvider>
+        <App />
+      </AuthProvider>
     </StyleProvider>
   </React.StrictMode>,
   document.getElementById("root")

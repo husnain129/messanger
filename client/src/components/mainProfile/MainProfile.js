@@ -15,9 +15,7 @@ const MainProfile = () => {
           />
           <div className={s.imgDot} />
         </div>
-        {/* <div className={s.follow}>
-          <p>Follow +</p>
-        </div> */}
+
         <div className={s.Profile_info}>
           <p className={s.Profile_info__title}>Tobias Williams</p>
           <p className={s.Profile_info__city}>Paris, Farance</p>

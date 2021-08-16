@@ -1,5 +1,7 @@
+import { useContext } from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import Sidebar from "./components/sidebar/Sidebar";
+import { AuthContext } from "./context/AuthContext";
 import s from "./Global.module.css";
 import Login from "./pages/Auth/Login/Login";
 import SignUp from "./pages/Auth/SignUp/SignUp";
@@ -9,15 +11,14 @@ import Messanger from "./pages/Messanger";
 import PrivateRoute from "./PrivateRoute";
 
 function App() {
-  const token = "erdf";
-
+  const { token } = useContext(AuthContext);
   return (
     <div className={s.layout}>
       <Router>
         {token && <Sidebar />}
         <Route path="/auth/login" component={Login} />
         <Route path="/auth/signUp" component={SignUp} />
-        <PrivateRoute path="/" component={Home} />
+        <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute path="/messanger" component={Messanger} />
         <PrivateRoute path="/editProfile" component={EditProfile} />
       </Router>
