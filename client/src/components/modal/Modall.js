@@ -13,6 +13,7 @@ function Modall({
   setSImage,
   lImage,
   setLImage,
+  uploadFileHadler,
 }) {
   const customStyles = {
     content: {
@@ -67,7 +68,7 @@ function Modall({
           <div className={s.modal_bl}>
             <p className={s.modal_text}>Product Profile Image</p>
             <label
-              for="profileImage"
+              htmlFor="profileImage"
               className={s.bl_image}
               style={{ border: lImage && "none" }}
             >
@@ -105,6 +106,9 @@ function Modall({
                 </div>
               )}
             </label>
+            <div className={s.btn} onClick={uploadFileHadler}>
+              <p>Save</p>
+            </div>
           </div>
           <div className={s.modal_br}>
             {sImage?.map((v, i) => (

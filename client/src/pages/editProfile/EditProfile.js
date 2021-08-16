@@ -18,7 +18,7 @@ function EditProfile({ children }) {
     setIsOpen(false);
   }
 
-  const uploadFileHadler = async (e) => {
+  const uploadFileHadler = async () => {
     const api = UseImage();
     const image = lImage;
     const images = sImage;
@@ -112,7 +112,7 @@ function EditProfile({ children }) {
           <div className={s.btn} onClick={() => openModal()}>
             <p>Add Images</p>
           </div>
-          <div className={s.btn} onClick={uploadFileHadler}>
+          <div className={s.btn}>
             <p>Save</p>
           </div>
         </div>
@@ -124,6 +124,7 @@ function EditProfile({ children }) {
         setSImage={setSImage}
         lImage={lImage}
         setLImage={setLImage}
+        uploadFileHadler={uploadFileHadler}
       >
         {children}
       </Modall>

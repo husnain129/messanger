@@ -31,6 +31,24 @@
     border-right: 1px solid #ccc;
 }
 
+.btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 120px;
+    height: 40px;
+    border-radius: 5px;
+    background-color: #4CAF50;
+    color: white;
+    cursor: pointer;
+    transition: all 200ms ease-in-out;
+}
+
+.btn:hover {
+    background-color: #408142;
+
+}
+
 .modal_br {
     padding-top: 5vh;
     height: inherit;
