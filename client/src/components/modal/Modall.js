@@ -106,7 +106,7 @@ function Modall({
                 </div>
               )}
             </label>
-            <div className={s.btn} onClick={uploadFileHadler}>
+            <div className={s.btn} onClick={() => uploadFileHadler()}>
               <p>Save</p>
             </div>
           </div>

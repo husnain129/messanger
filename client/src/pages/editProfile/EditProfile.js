@@ -57,14 +57,20 @@ function EditProfile({ children }) {
       let formData = new FormData();
       formData.append("image", image);
       (async () => {
-        await api.Image(formData).then((data) => {
-          if (data.status === "success") {
-            setProfileImg(data.profile);
-          }
-        });
+        await api
+          .Image(formData)
+          .then((data) => {
+            if (data.status === "success") {
+              setProfileImg(data.profile);
+            }
+          })
+          .then((d) =>
+            setTimeout(() => {
+              setIsOpen(false);
+            }, 500)
+          );
       })();
     }
-
     if (images.length !== 0) {
       let formData;
       formData = new FormData();
@@ -76,6 +82,11 @@ function EditProfile({ children }) {
           await api
             .Images(formData)
             .then((d) => setGallery(d.gallery))
+            .then((d) =>
+              setTimeout(() => {
+                setIsOpen(false);
+              }, 500)
+            )
             .catch((e) => console.log(e));
         } catch (error) {
           console.log("image error = ", error);
@@ -96,9 +107,10 @@ function EditProfile({ children }) {
     (async () => {
       await api
         .updateProfile({ ...profile, gallery, image: profileImg })
-        .then((d) => {
-          d.status === "success" && history.push("/");
-        });
+        .then((d) => console.log(d));
+      // .then((d) => {
+      //   d.status === "success" && history.push("/");
+      // });
     })();
   };
 

@@ -22,7 +22,6 @@ const profileSchema = new Schema(
     gender: {
       type: String,
       enum: ["male", "female"],
-      required: [true, "Please enter your gender"],
     },
   },
   {

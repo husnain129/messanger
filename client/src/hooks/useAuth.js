@@ -37,7 +37,7 @@ const useAuth = () => {
     },
     updateProfile: async (dataObj) => {
       try {
-        const data = await api.patch("/profile", dataObj, authConfig);
+        const data = await api.patch("/profile/", dataObj, authConfig);
         return data;
       } catch (error) {
         console.log("update profile error = ", error);

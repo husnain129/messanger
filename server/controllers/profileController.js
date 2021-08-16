@@ -2,6 +2,7 @@ const catchAsync = require("./../utils/catchAsync");
 const AppError = require("./../utils/appError");
 const Profile = require("../modals/profileModal");
 const User = require("../modals/userModal");
+const filterObj = require("../helper/filterObj");
 
 exports.getProfile = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.params.id);
@@ -25,47 +26,46 @@ exports.getProfile = catchAsync(async (req, res, next) => {
 
 exports.getAllProfiles = catchAsync(async (req, res, next) => {
   const profiles = await Profile.find({}).populate("user", "_id username");
-  res.status(200).json(profiles);
+  res.status(200).json({
+    status: "success",
+    profiles,
+  });
 });
 
 exports.updateProfile = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   if (user) {
-    const {
-      firstName,
-      lastName,
-      image,
-      gallery,
-      city,
-      country,
-      faceBook,
-      gitHub,
-      twitter,
-      phone,
-      dob,
-      gender,
-    } = req.body;
     const profile = await Profile.findOne({ user: user._id });
     if (profile) {
-      const updateProfile = new Profile({
-        user: req.user._id,
-        firstName: firstName || profile.firstName,
-        lastName: lastName || profile.lastName,
-        image: image || profile.image,
-        gallery: gallery || profile.gallery,
-        city: city || profile.city,
-        country: country || profile.country,
-        faceBook: faceBook || profile.faceBook,
-        gitHub: gitHub || profile.gitHub,
-        twitter: twitter || profile.twitter,
-        phone: phone || profile.phone,
-        dob: dob || profile.dob,
-        gender: gender || profile.gender,
-      });
-      const saveProfile = await updateProfile.save();
+      const filteredBody = filterObj(
+        req.body,
+        "firstName",
+        "lastName",
+        "image",
+        "gallery",
+        "city",
+        "country",
+        "faceBook",
+        "gitHub",
+        "twitter",
+        "phone",
+        "dob",
+        "gender"
+      );
+      console.log("profile id = ", profile._id);
+      const updatedProfile = await Profile.findByIdAndUpdate(
+        profile._id,
+        filteredBody,
+        {
+          new: true,
+          runValidators: true,
+        }
+      );
       res.status(200).json({
         status: "success",
-        profile: saveProfile,
+        data: {
+          profile: updatedProfile,
+        },
       });
     } else {
       const newProfile = new Profile({
@@ -76,9 +76,9 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
         gallery,
         city,
         country,
-        faceBook: String,
-        gitHub: String,
-        twitter: String,
+        faceBook,
+        gitHub,
+        twitter,
         phone,
         dob,
         gender,

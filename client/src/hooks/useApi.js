@@ -25,6 +25,9 @@ const useApi = () => {
     patch: async (url, value, config) => {
       try {
         const { data } = await axios.patch(baseUrl + url, value, config);
+        if (data.status !== "success") {
+          throw new Error("request failed");
+        }
         return data;
       } catch (error) {
         console.log(error);
