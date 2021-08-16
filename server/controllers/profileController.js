@@ -11,7 +11,10 @@ exports.getProfile = catchAsync(async (req, res, next) => {
       "_id username"
     );
     if (profile) {
-      res.status(200).json(profile);
+      res.status(200).json({
+        status: "success",
+        profile,
+      });
     } else {
       return next(new AppError("Profile with this id not found", 404));
     }
@@ -28,8 +31,20 @@ exports.getAllProfiles = catchAsync(async (req, res, next) => {
 exports.updateProfile = catchAsync(async (req, res, next) => {
   const user = await User.findById(req.user._id);
   if (user) {
-    const { name, image, gallery, city, country, social, phone, dob, gender } =
-      req.body;
+    const {
+      firstName,
+      lastName,
+      image,
+      gallery,
+      city,
+      country,
+      faceBook,
+      gitHub,
+      twitter,
+      phone,
+      dob,
+      gender,
+    } = req.body;
     const profile = await Profile.findOne({ user: user._id });
     if (profile) {
       const updateProfile = new Profile({
@@ -40,7 +55,9 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
         gallery: gallery || profile.gallery,
         city: city || profile.city,
         country: country || profile.country,
-        social: social || profile.social,
+        faceBook: faceBook || profile.faceBook,
+        gitHub: gitHub || profile.gitHub,
+        twitter: twitter || profile.twitter,
         phone: phone || profile.phone,
         dob: dob || profile.dob,
         gender: gender || profile.gender,
@@ -59,7 +76,9 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
         gallery,
         city,
         country,
-        social,
+        faceBook: String,
+        gitHub: String,
+        twitter: String,
         phone,
         dob,
         gender,

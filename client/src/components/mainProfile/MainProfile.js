@@ -1,28 +1,44 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { IconContext } from "react-icons";
 import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { FaFacebookF } from "react-icons/fa";
+import { AuthContext } from "../../context/AuthContext";
+import useAuth from "../../hooks/useAuth";
 import s from "./MainProfile.module.css";
-const MainProfile = () => {
+const MainProfile = ({ history }) => {
+  const { user, profile, setProfile } = useContext(AuthContext);
+  const api = useAuth();
+
+  useEffect(() => {
+    if (!profile) {
+      (async () => {
+        await api.getProfile(user._id).then((d) => setProfile(d.profile));
+      })();
+    }
+  }, [history]);
   return (
     <div className={s.container}>
       <div className={s.profile}>
         <div className={s.imgContainer}>
-          <img
-            src="/images/profile-1629078272589.jpg"
-            alt="emma"
-            className={s.img}
-          />
+          {profile && <img src={profile.image} alt="emma" className={s.img} />}
           <div className={s.imgDot} />
         </div>
 
         <div className={s.Profile_info}>
-          <p className={s.Profile_info__title}>Tobias Williams</p>
-          <p className={s.Profile_info__city}>Paris, Farance</p>
-          <p className={s.Profile_info__desc}>
-            How people to build website and apps + grow awareness in social
-            media.
-          </p>
+          {profile && (
+            <>
+              <p className={s.Profile_info__title}>
+                {profile.firstName} {profile.lastName}
+              </p>
+              <p className={s.Profile_info__city}>
+                {profile.city}, {profile.country}
+              </p>
+              <p className={s.Profile_info__desc}>
+                How people to build website and apps + grow awareness in social
+                media.
+              </p>
+            </>
+          )}
           <div className={s.iconContainer}>
             <IconContext.Provider
               value={{
@@ -44,33 +60,27 @@ const MainProfile = () => {
           </div>
         </div>
         <div className={s.line} />
-        <div className={s.contact}>
-          <p>
-            Phone:<span>+92 308 701 1212</span>
-          </p>
-          <p>
-            Email:<span>mlhlk1212@gmail.com</span>
-          </p>
-          <p>
-            DOB:<span>17.09.1998</span>
-          </p>
-        </div>
+        {profile && (
+          <div className={s.contact}>
+            <p>
+              Phone:<span>{profile.phone}</span>
+            </p>
+            <p>
+              Email:<span>{user.email}</span>
+            </p>
+            <p>
+              DOB:<span>{profile.dob}</span>
+            </p>
+          </div>
+        )}
         <div className={s.line} />
         <div className={s.mediaContainer}>
           <p>Media</p>
           <div className={s.mediaImage}>
-            <img
-              src="https://c4.wallpaperflare.com/wallpaper/498/446/357/emma-watson-tie-actress-hermione-granger-wallpaper-preview.jpg"
-              alt="emma watson"
-            />
-            <img
-              src="https://c4.wallpaperflare.com/wallpaper/970/674/568/emma-watson-actress-bracelets-necklace-wallpaper-preview.jpg"
-              alt="emma watson"
-            />
-            <img
-              src="https://c4.wallpaperflare.com/wallpaper/735/37/159/emma-watson-actress-women-celebrity-wallpaper-preview.jpg"
-              alt="emma watson"
-            />
+            {profile &&
+              profile.gallery.map((i, e) => (
+                <img keys={e} src={i} alt="emma watson" />
+              ))}
           </div>
         </div>
       </div>

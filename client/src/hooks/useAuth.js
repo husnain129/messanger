@@ -7,8 +7,8 @@ const useAuth = () => {
       "Content-Type": "application/json",
     },
   };
-  const token = localStorage.getItem("token")
-    ? JSON.parse(localStorage.getItem("token"))
+  const { token } = localStorage.getItem("user")
+    ? JSON.parse(localStorage.getItem("user"))
     : "";
   const authConfig = {
     headers: {
@@ -20,7 +20,7 @@ const useAuth = () => {
     login: async (dataObj) => {
       try {
         const data = await api.post("/users/login", dataObj, config);
-        localStorage.setItem("token", JSON.stringify(data.token));
+        localStorage.setItem("user", JSON.stringify(data));
         return data;
       } catch (error) {
         console.log("Login error = ", error);
@@ -41,6 +41,14 @@ const useAuth = () => {
         return data;
       } catch (error) {
         console.log("update profile error = ", error);
+      }
+    },
+    getProfile: async (id) => {
+      try {
+        const data = await api.get(`/profile/${id}`, config);
+        return data;
+      } catch (error) {
+        console.log("get profile error = ", error);
       }
     },
   };

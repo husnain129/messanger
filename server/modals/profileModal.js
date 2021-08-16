@@ -14,7 +14,9 @@ const profileSchema = new Schema(
     gallery: [String],
     city: String,
     country: String,
-    social: [String],
+    faceBook: String,
+    gitHub: String,
+    twitter: String,
     phone: String,
     dob: String,
     gender: {
