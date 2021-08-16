@@ -16,6 +16,14 @@ const UseImage = () => {
         console.log(error);
       }
     },
+    Images: async (value) => {
+      try {
+        const data = await api.post("/images", value, config);
+        return data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   };
 };
 

@@ -107,7 +107,7 @@ function Modall({
             </label>
           </div>
           <div className={s.modal_br}>
-            {sImage.map((v, i) => (
+            {sImage?.map((v, i) => (
               <div key={i} className={s.update_small_img}>
                 <img
                   src={URL.createObjectURL(v.img)}

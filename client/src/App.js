@@ -1,5 +1,5 @@
-import { useContext } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
+import { useContext, useEffect } from "react";
+import { BrowserRouter as Router, Route, useHistory } from "react-router-dom";
 import Sidebar from "./components/sidebar/Sidebar";
 import { AuthContext } from "./context/AuthContext";
 import s from "./Global.module.css";
@@ -12,6 +12,10 @@ import PrivateRoute from "./PrivateRoute";
 
 function App() {
   const { token } = useContext(AuthContext);
+  const history = useHistory();
+  useEffect(() => {
+    console.log("as,db,asdnlsda");
+  }, [history]);
   return (
     <div className={s.layout}>
       <Router>

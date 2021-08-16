@@ -38,6 +38,7 @@ app.use("/api/v1/conversations", conversationRouter);
 app.use("/api/v1/messages", messageRouter);
 app.use("/api/v1/profile", profileRouter);
 app.post("/api/v1/image", imageUpload.Image);
+app.post("/api/v1/images", imageUpload.Images);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

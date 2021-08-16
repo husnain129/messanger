@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { Redirect, Route, useHistory } from "react-router-dom";
 import { AuthContext } from "./context/AuthContext";
 
@@ -7,11 +7,16 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
   const { token } = useContext(AuthContext);
   const currentLocation = window.location.pathname;
   const endPoints = ["/", "/messanger", "/editProfile"];
-  endPoints.forEach((l) => {
-    if (token && l !== currentLocation) {
-      history.push("/");
-    }
-  });
+  console.log(currentLocation);
+  useEffect(() => {
+    // console.log("location = ", currentLocation);
+    // endPoints.forEach((l) => {
+    //   if (token && l !== currentLocation) {
+    //     history.push("/");
+    //   }
+    // });
+  }, [history]);
+
   return (
     <Route
       {...rest}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Modall from "../../components/modal/Modall";
 import ss from "../../Global.module.css";
 import UseImage from "../../hooks/useImage";
@@ -7,7 +7,7 @@ function EditProfile({ children }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [lImage, setLImage] = useState(null);
   const [sImage, setSImage] = useState([]);
-  const [gallery, setGallery] = useState([]);
+  const [gallery, setGallery] = useState();
   const [profile, setProfile] = useState();
 
   function openModal() {
@@ -36,26 +36,26 @@ function EditProfile({ children }) {
     }
 
     if (images.length !== 0) {
+      let formData;
+      formData = new FormData();
       images.forEach((el) => {
-        (async () => {
-          let formData = new FormData();
-          formData.append("image", el.img);
-          await api.Image(formData).then((data) => {
-            if (data.status === "success") {
-              setGallery((pre) => [...pre, data.image]);
-            }
-          });
-        })();
+        formData.append(`images`, el.img);
       });
-      setSImage([]);
+      (async () => {
+        try {
+          await api
+            .Images(formData)
+            .then((d) => setGallery(d.gallery))
+            .catch((e) => console.log(e));
+        } catch (error) {
+          console.log("image error = ", error);
+        }
+      })();
+      setSImage();
     }
     setLImage(null);
   };
-
-  useEffect(() => {
-    gallery.length > 0 && console.log("gallery", gallery);
-    profile && console.log("profile", profile);
-  }, [gallery, profile]);
+  gallery && console.log(gallery);
 
   return (
     <div className={`${s.body} ${ss.container}`}>
