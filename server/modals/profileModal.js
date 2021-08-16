@@ -8,10 +8,8 @@ const profileSchema = new Schema(
       ref: "User",
       required: true,
     },
-    name: {
-      first: String,
-      last: String,
-    },
+    firstName: String,
+    lastName: String,
     image: String,
     gallery: [String],
     city: String,

@@ -34,7 +34,8 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
     if (profile) {
       const updateProfile = new Profile({
         user: req.user._id,
-        name: name || profile.name,
+        firstName: firstName || profile.firstName,
+        lastName: lastName || profile.lastName,
         image: image || profile.image,
         gallery: gallery || profile.gallery,
         city: city || profile.city,
@@ -52,7 +53,8 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
     } else {
       const newProfile = new Profile({
         user: req.user._id,
-        name,
+        firstName,
+        lastName,
         image,
         gallery,
         city,
@@ -62,10 +64,11 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
         dob,
         gender,
       });
+
       const saveProfile = await newProfile.save();
       res.status(200).json({
         status: "success",
-        profile: saveProfiles,
+        profile: saveProfile,
       });
     }
   } else {

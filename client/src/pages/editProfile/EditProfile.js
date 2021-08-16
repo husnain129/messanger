@@ -1,14 +1,28 @@
 import React, { useState } from "react";
 import Modall from "../../components/modal/Modall";
 import ss from "../../Global.module.css";
-import UseImage from "../../hooks/useImage";
+import uploadImage from "../../helpler/uploadImage";
+// import UseImage from "../../hooks/useImage";
 import s from "./EditProfile.module.css";
 function EditProfile({ children }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [lImage, setLImage] = useState(null);
   const [sImage, setSImage] = useState([]);
   const [gallery, setGallery] = useState();
-  const [profile, setProfile] = useState();
+  const [profileImg, setProfileImg] = useState();
+  const [profile, setProfile] = useState({
+    firstName: "",
+    lastName: "",
+    image: "",
+    city: "",
+    country: "",
+    phone: "",
+    dob: "",
+    gender: "",
+  });
+
+  const { firstName, lastName, image, city, country, phone, dob, gender } =
+    profile;
 
   function openModal() {
     setIsOpen(true);
@@ -19,43 +33,57 @@ function EditProfile({ children }) {
   }
 
   const uploadFileHadler = async () => {
-    const api = UseImage();
-    const image = lImage;
-    const images = sImage;
+    uploadImage(
+      lImage,
+      sImage,
+      setProfileImg,
+      setGallery,
+      setSImage,
+      setLImage
+    );
+    profileImg && console.log(profileImg);
+    // const api = UseImage();
+    // const image = lImage;
+    // const images = sImage;
 
-    if (image) {
-      let formData = new FormData();
-      formData.append("image", image);
-      (async () => {
-        await api.Image(formData).then((data) => {
-          if (data.status === "success") {
-            setProfile(data.image);
-          }
-        });
-      })();
-    }
+    // if (image) {
+    //   let formData = new FormData();
+    //   formData.append("image", image);
+    //   (async () => {
+    //     await api.Image(formData).then((data) => {
+    //       if (data.status === "success") {
+    //         setProfileImg(data.image);
+    //       }
+    //     });
+    //   })();
+    // }
 
-    if (images.length !== 0) {
-      let formData;
-      formData = new FormData();
-      images.forEach((el) => {
-        formData.append(`images`, el.img);
-      });
-      (async () => {
-        try {
-          await api
-            .Images(formData)
-            .then((d) => setGallery(d.gallery))
-            .catch((e) => console.log(e));
-        } catch (error) {
-          console.log("image error = ", error);
-        }
-      })();
-      setSImage();
-    }
-    setLImage(null);
+    // if (images.length !== 0) {
+    //   let formData;
+    //   formData = new FormData();
+    //   images.forEach((el) => {
+    //     formData.append(`images`, el.img);
+    //   });
+    //   (async () => {
+    //     try {
+    //       await api
+    //         .Images(formData)
+    //         .then((d) => setGallery(d.gallery))
+    //         .catch((e) => console.log(e));
+    //     } catch (error) {
+    //       console.log("image error = ", error);
+    //     }
+    //   })();
+    //   setSImage();
+    // }
+    // setLImage(null);
   };
-  gallery && console.log(gallery);
+
+  const handlerProfile = (e) => {
+    e.preventDefault();
+    const { name, value } = e.target;
+    setProfile((prev) => ({ ...prev, [name]: value }));
+  };
 
   return (
     <div className={`${s.body} ${ss.container}`}>
@@ -112,7 +140,7 @@ function EditProfile({ children }) {
           <div className={s.btn} onClick={() => openModal()}>
             <p>Add Images</p>
           </div>
-          <div className={s.btn}>
+          <div className={s.btn} onClick={handlerProfile}>
             <p>Save</p>
           </div>
         </div>

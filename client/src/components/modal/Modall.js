@@ -51,7 +51,7 @@ function Modall({
   };
 
   const imageFilter = (i) => {
-    setSImage(sImage.filter((_v, _i) => _i !== i));
+    sImage && setSImage(sImage.filter((_v, _i) => _i !== i));
   };
 
   return (
@@ -111,23 +111,28 @@ function Modall({
             </div>
           </div>
           <div className={s.modal_br}>
-            {sImage?.map((v, i) => (
-              <div key={i} className={s.update_small_img}>
-                <img
-                  src={URL.createObjectURL(v.img)}
-                  alt="car"
-                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
-                />
-                <div className={s.update_icon}>
-                  <BsFillTrash2Fill
-                    color="white"
-                    size={25}
-                    style={{ cursor: "pointer" }}
-                    onClick={() => imageFilter(i)}
+            {sImage &&
+              sImage.map((v, i) => (
+                <div key={i} className={s.update_small_img}>
+                  <img
+                    src={URL.createObjectURL(v.img)}
+                    alt="car"
+                    style={{
+                      width: "100%",
+                      height: "100%",
+                      objectFit: "cover",
+                    }}
                   />
+                  <div className={s.update_icon}>
+                    <BsFillTrash2Fill
+                      color="white"
+                      size={25}
+                      style={{ cursor: "pointer" }}
+                      onClick={() => imageFilter(i)}
+                    />
+                  </div>
                 </div>
-              </div>
-            ))}
+              ))}
             <label htmlFor="smallImage" className={s.br_image}>
               <BiImageAdd size={30} color="rgb(102, 100, 100)" />
               <input
