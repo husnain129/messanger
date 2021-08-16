@@ -124,7 +124,7 @@ function Modall({
                 </div>
               </div>
             ))}
-            <label for="smallImage" className={s.br_image}>
+            <label htmlFor="smallImage" className={s.br_image}>
               <BiImageAdd size={30} color="rgb(102, 100, 100)" />
               <input
                 type="file"

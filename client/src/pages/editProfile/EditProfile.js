@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modall from "../../components/modal/Modall";
 import ss from "../../Global.module.css";
 import UseImage from "../../hooks/useImage";
@@ -7,6 +7,8 @@ function EditProfile({ children }) {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [lImage, setLImage] = useState(null);
   const [sImage, setSImage] = useState([]);
+  const [gallery, setGallery] = useState([]);
+  const [profile, setProfile] = useState();
 
   function openModal() {
     setIsOpen(true);
@@ -20,26 +22,40 @@ function EditProfile({ children }) {
     const api = UseImage();
     const image = lImage;
     const images = sImage;
-    if (images.length !== 0) {
-      images.forEach((el) => {
-        (async () => {
-          let formData = new FormData();
-          formData.append("image", el.img);
-          await api.Image(formData).then((d) => console.log("gallery = ", d));
-        })();
-      });
-      setSImage([]);
-    }
 
     if (image) {
       let formData = new FormData();
       formData.append("image", image);
       (async () => {
-        await api.Image(formData).then((d) => console.log("profile = ", d));
+        await api.Image(formData).then((data) => {
+          if (data.status === "success") {
+            setProfile(data.image);
+          }
+        });
       })();
+    }
+
+    if (images.length !== 0) {
+      images.forEach((el) => {
+        (async () => {
+          let formData = new FormData();
+          formData.append("image", el.img);
+          await api.Image(formData).then((data) => {
+            if (data.status === "success") {
+              setGallery((pre) => [...pre, data.image]);
+            }
+          });
+        })();
+      });
+      setSImage([]);
     }
     setLImage(null);
   };
+
+  useEffect(() => {
+    gallery.length > 0 && console.log("gallery", gallery);
+    profile && console.log("profile", profile);
+  }, [gallery, profile]);
 
   return (
     <div className={`${s.body} ${ss.container}`}>
