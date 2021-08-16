@@ -9,7 +9,7 @@ const MainProfile = () => {
       <div className={s.profile}>
         <div className={s.imgContainer}>
           <img
-            src="https://wallpaperaccess.com/full/275931.jpg"
+            src="/images/profile-1629078272589.jpg"
             alt="emma"
             className={s.img}
           />

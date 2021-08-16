@@ -10,6 +10,7 @@ const messageRouter = require("./routes/messageRoute");
 const imageUpload = require("./utils/imageUpload");
 const cors = require("cors");
 const AppError = require("./utils/appError");
+const path = require("path");
 const app = express();
 
 app.use(cors());
