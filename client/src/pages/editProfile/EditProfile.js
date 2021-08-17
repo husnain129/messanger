@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useHistory } from "react-router-dom";
-import Modall from "../../components/modal/Modall";
+import Modal from "../../components/modal/Modal";
 import ss from "../../Global.module.css";
 import useAuth from "../../hooks/useAuth";
 import UseImage from "../../hooks/useImage";
@@ -57,18 +57,11 @@ function EditProfile({ children }) {
       let formData = new FormData();
       formData.append("image", image);
       (async () => {
-        await api
-          .Image(formData)
-          .then((data) => {
-            if (data.status === "success") {
-              setProfileImg(data.profile);
-            }
-          })
-          .then((d) =>
-            setTimeout(() => {
-              setIsOpen(false);
-            }, 500)
-          );
+        await api.Image(formData).then((data) => {
+          if (data.status === "success") {
+            setProfileImg(data.profile);
+          }
+        });
       })();
     }
     if (images.length !== 0) {
@@ -82,11 +75,6 @@ function EditProfile({ children }) {
           await api
             .Images(formData)
             .then((d) => setGallery(d.gallery))
-            .then((d) =>
-              setTimeout(() => {
-                setIsOpen(false);
-              }, 500)
-            )
             .catch((e) => console.log(e));
         } catch (error) {
           console.log("image error = ", error);
@@ -107,16 +95,27 @@ function EditProfile({ children }) {
     (async () => {
       await api
         .updateProfile({ ...profile, gallery, image: profileImg })
-        .then((d) => console.log(d));
-      // .then((d) => {
-      //   d.status === "success" && history.push("/");
-      // });
+        .then((d) => console.log(d))
+        .then((d) => {
+          d.status === "success" && history.push("/");
+        });
     })();
   };
 
+  useEffect(() => {
+    if (profileImg || gallery) {
+      console.log("Loading profile...", profileImg);
+      console.log("Loading gallery...", gallery);
+    }
+  }, [profileImg, gallery]);
+  console.log("Loading profile...", profileImg);
+  console.log("Loading gallery...", gallery);
   return (
     <div className={`${s.body} ${ss.container}`}>
       <div className={s.form}>
+        <div className={s.btn} onClick={() => openModal()}>
+          <p>Add Images</p>
+        </div>
         <div className={s.flex}>
           <p>First Name</p>
           <input
@@ -221,16 +220,11 @@ function EditProfile({ children }) {
             <option>female</option>
           </select>
         </div>
-        <div className={s.btnContainer}>
-          <div className={s.btn} onClick={() => openModal()}>
-            <p>Add Images</p>
-          </div>
-          <div className={s.btn} onClick={handleSubmit}>
-            <p>Save</p>
-          </div>
+        <div className={s.btn} onClick={handleSubmit}>
+          <p>Save</p>
         </div>
       </div>
-      <Modall
+      <Modal
         modalIsOpen={modalIsOpen}
         closeModal={closeModal}
         sImage={sImage}
@@ -240,7 +234,7 @@ function EditProfile({ children }) {
         uploadFileHadler={uploadFileHadler}
       >
         {children}
-      </Modall>
+      </Modal>
     </div>
   );
 }

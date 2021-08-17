@@ -17,10 +17,16 @@ exports.getProfile = catchAsync(async (req, res, next) => {
         profile,
       });
     } else {
-      return next(new AppError("Profile with this id not found", 404));
+      res.status(404).json({
+        status: "fail",
+        message: "Profile with this id not found",
+      });
     }
   } else {
-    return next(new AppError("User not found", 404));
+    res.status(404).json({
+      status: "fail",
+      message: "User not found",
+    });
   }
 });
 

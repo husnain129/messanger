@@ -6,8 +6,8 @@ const useApi = () => {
     get: async (url, value, config) => {
       try {
         const { data } = await axios.get(baseUrl + url, value, config);
-        if (data.status !== "success") {
-          throw new Error("request failed");
+        if (data.status === "fail") {
+          return data.message;
         }
         return data;
       } catch (error) {

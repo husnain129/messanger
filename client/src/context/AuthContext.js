@@ -10,6 +10,7 @@ const AuthProvider = ({ children }) => {
   );
   const [token, setToken] = useState(user.token || "");
   const [profile, setProfile] = useState();
+
   return (
     <AuthContext.Provider
       value={{ token, setToken, user, setUser, profile, setProfile }}
