@@ -8,10 +8,8 @@ const userRouter = require("./routes/userRoute");
 const conversationRouter = require("./routes/conversationRoute");
 const messageRouter = require("./routes/messageRoute");
 const profileRouter = require("./routes/profileRoute");
-const imageUpload = require("./utils/imageUpload");
 const cors = require("cors");
 const AppError = require("./utils/appError");
-const path = require("path");
 const app = express();
 
 app.use(cors());
@@ -24,8 +22,9 @@ if (process.env.NODE_ENV === "development") {
   app.use(morgan("dev"));
 }
 
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "50mb" }));
+app.use(express.urlencoded({ extended: true, limit: "50mb" }));
+
 // Data sanitization against NoSQL query injection
 app.use(mongoSanitize());
 
@@ -37,8 +36,6 @@ app.use("/api/v1/users", userRouter);
 app.use("/api/v1/conversations", conversationRouter);
 app.use("/api/v1/messages", messageRouter);
 app.use("/api/v1/profile", profileRouter);
-app.post("/api/v1/image", imageUpload.Image);
-app.post("/api/v1/images", imageUpload.Images);
 
 app.all("*", (req, res, next) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));

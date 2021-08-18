@@ -4,7 +4,7 @@ const UseImage = () => {
   const api = useApi();
   const config = {
     headers: {
-      "Content-type": "multipart/form-data",
+      "Content-type": "application/json",
     },
   };
   return {

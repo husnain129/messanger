@@ -13,7 +13,10 @@ const MainProfile = ({ history }) => {
     console.log(user);
     if (!profile) {
       (async () => {
-        await api.getProfile(user._id).then((d) => setProfile(d?.profile));
+        await api.getProfile(user._id).then((d) => {
+          setProfile(d?.profile);
+          console.log(d?.profile);
+        });
       })();
     }
   }, [history]);

@@ -1,18 +1,19 @@
-import React, { useEffect, useState } from "react";
+import axios from "axios";
+import React, { useState } from "react";
 import { useHistory } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
 import ss from "../../Global.module.css";
 import useAuth from "../../hooks/useAuth";
-import UseImage from "../../hooks/useImage";
 import s from "./EditProfile.module.css";
-
 function EditProfile({ children }) {
   const api = useAuth();
+  const url = "https://api.cloudinary.com/v1_1/hunnykhan/image/upload";
+
   const history = useHistory();
   const [modalIsOpen, setIsOpen] = useState(false);
   const [lImage, setLImage] = useState(null);
   const [sImage, setSImage] = useState([]);
-  const [gallery, setGallery] = useState();
+  const [gallery, setGallery] = useState([]);
   const [profileImg, setProfileImg] = useState();
   const [profile, setProfile] = useState({
     firstName: "",
@@ -49,37 +50,39 @@ function EditProfile({ children }) {
   }
 
   const uploadFileHadler = async () => {
-    const api = UseImage();
     const image = lImage;
     const images = sImage;
 
     if (image) {
       let formData = new FormData();
-      formData.append("image", image);
-      (async () => {
-        await api.Image(formData).then((data) => {
-          if (data.status === "success") {
-            setProfileImg(data.profile);
-          }
+      formData.append("file", image);
+      formData.append("upload_preset", "messenger_application");
+      try {
+        axios.post(url, formData).then((res) => {
+          setProfileImg(res.data.secure_url);
         });
-      })();
+      } catch (error) {
+        console.log(error);
+      }
     }
+
     if (images.length !== 0) {
       let formData;
       formData = new FormData();
-      images.forEach((el) => {
-        formData.append(`images`, el.img);
+      images.forEach(async (el) => {
+        formData.append("file", el.img);
+        formData.append("upload_preset", "messenger_application");
+        (async () => {
+          try {
+            axios.post(url, formData).then((res) => {
+              setGallery((prev) => [...prev, res.data.secure_url]);
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        })();
       });
-      (async () => {
-        try {
-          await api
-            .Images(formData)
-            .then((d) => setGallery(d.gallery))
-            .catch((e) => console.log(e));
-        } catch (error) {
-          console.log("image error = ", error);
-        }
-      })();
+
       setSImage();
     }
     setLImage(null);
@@ -95,21 +98,12 @@ function EditProfile({ children }) {
     (async () => {
       await api
         .updateProfile({ ...profile, gallery, image: profileImg })
-        .then((d) => console.log(d))
         .then((d) => {
-          d.status === "success" && history.push("/");
+          d?.status === "success" && history.push("/");
         });
     })();
   };
 
-  useEffect(() => {
-    if (profileImg || gallery) {
-      console.log("Loading profile...", profileImg);
-      console.log("Loading gallery...", gallery);
-    }
-  }, [profileImg, gallery]);
-  console.log("Loading profile...", profileImg);
-  console.log("Loading gallery...", gallery);
   return (
     <div className={`${s.body} ${ss.container}`}>
       <div className={s.form}>

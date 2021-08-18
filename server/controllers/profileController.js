@@ -74,6 +74,23 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
         },
       });
     } else {
+      const {
+        firstName,
+        lastName,
+        image,
+        gallery,
+        city,
+        country,
+        faceBook,
+        gitHub,
+        twitter,
+        phone,
+        dob,
+        gender,
+      } = req.body;
+      console.log(image);
+      console.log(gallery);
+
       const newProfile = new Profile({
         user: req.user._id,
         firstName,
@@ -91,6 +108,7 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
       });
 
       const saveProfile = await newProfile.save();
+      console.log(saveProfile);
       res.status(200).json({
         status: "success",
         profile: saveProfile,
