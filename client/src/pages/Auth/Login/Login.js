@@ -1,17 +1,17 @@
-import React, { useContext, useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { AuthContext } from "../../../context/AuthContext";
-import useAuth from "../../../hooks/useAuth";
+import { clearState, loginUser, userSelector } from "../../../redux/UserSlice";
 import s from "./Login.module.css";
 
 function Login({ history }) {
-  const api = useAuth();
-  const { setToken } = useContext(AuthContext);
-  const [user, setUser] = useState({
+  const { user, isSuccess, isError, errorMessage } = useSelector(userSelector);
+  const dispatch = useDispatch();
+  const [userd, setUser] = useState({
     email: "",
     password: "",
   });
-  const { email, password } = user;
+  const { email, password } = userd;
 
   const handleChange = (e) => {
     e.preventDefault();
@@ -20,15 +20,36 @@ function Login({ history }) {
   };
 
   const handleSubmit = () => {
-    (async () => {
-      await api.login(user).then((d) => {
-        if ((d.status = "success")) {
-          setToken(d.token);
-          history.push("/");
-        }
-      });
-    })();
+    dispatch(loginUser(userd));
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearState());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      console.log(errorMessage);
+    }
+    if (isSuccess) {
+      console.log("login page user", user);
+      dispatch(clearState());
+      history.push("/");
+    }
+  }, [isError, isSuccess, dispatch]);
+
+  // const handleSubmit = () => {
+  //   (async () => {
+  //     await api.login(user).then((d) => {
+  //       if ((d.status = "success")) {
+  //         setToken(d.token);
+  //         history.push("/");
+  //       }
+  //     });
+  //   })();
+  // };
 
   return (
     <div className={s.container}>

@@ -1,19 +1,21 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
 import App from "./App";
+import { store } from "./app/store";
 import { AuthProvider } from "./context/AuthContext";
 import { StyleProvider } from "./context/StyleContext";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <StyleProvider>
       <AuthProvider>
         <App />
       </AuthProvider>
     </StyleProvider>
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById("root")
 );
 

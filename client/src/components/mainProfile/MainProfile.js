@@ -2,24 +2,35 @@ import React, { useContext, useEffect } from "react";
 import { IconContext } from "react-icons";
 import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { FaFacebookF } from "react-icons/fa";
+import { useDispatch, useSelector } from "react-redux";
 import { AuthContext } from "../../context/AuthContext";
-import useAuth from "../../hooks/useAuth";
+import {
+  clearState,
+  getProfile,
+  profileSelector,
+} from "../../redux/ProfileSlice";
 import s from "./MainProfile.module.css";
 const MainProfile = ({ history }) => {
-  const { user, profile, setProfile } = useContext(AuthContext);
-  const api = useAuth();
+  const { user } = useContext(AuthContext);
+  const { profile, isSuccess, isError, errorMessage } =
+    useSelector(profileSelector);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    if (!profile) {
+      dispatch(getProfile(user._id));
+    }
+  }, [history, user]);
 
   useEffect(() => {
-    console.log(user);
-    if (!profile) {
-      (async () => {
-        await api.getProfile(user._id).then((d) => {
-          setProfile(d?.profile);
-          console.log(d?.profile);
-        });
-      })();
+    if (isError) {
+      console.log(errorMessage);
     }
-  }, [history]);
+    if (isSuccess) {
+      console.log("profile", profile);
+      dispatch(clearState());
+    }
+  }, [isError, isSuccess, dispatch]);
+
   return (
     <div className={s.container}>
       <div className={s.profile}>
@@ -82,7 +93,7 @@ const MainProfile = ({ history }) => {
           <p>Media</p>
           <div className={s.mediaImage}>
             {profile &&
-              profile.gallery.map((i, e) => (
+              profile?.gallery.map((i, e) => (
                 <img keys={e} src={i} alt="emma watson" />
               ))}
           </div>
