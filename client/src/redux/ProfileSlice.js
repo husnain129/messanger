@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { config, fulfilled, pending, rejected } from "./helper";
+import { authConfig, config, fulfilled, pending, rejected } from "./helper";
 import userApi from "./userApi";
 
 const api = userApi();
@@ -30,6 +30,24 @@ export const getProfile = createAsyncThunk(
   }
 );
 
+export const updateProfile = createAsyncThunk(
+  "profile/updateProfile",
+  async (dataObj, { rejectWithValue }) => {
+    try {
+      const data = await api.patch("/profile/", dataObj, authConfig);
+      if (data) {
+        console.log(data);
+        return data.profile;
+      } else {
+        console.log("profile not updated");
+        return rejectWithValue("profile data not found");
+      }
+    } catch (error) {
+      console.log("error in profile update = ", error);
+    }
+  }
+);
+
 export const profileSlice = createSlice({
   name: "profile",
   initialState,
@@ -50,6 +68,17 @@ export const profileSlice = createSlice({
       pending(state);
     },
     [getProfile.rejected]: (state, { payload }) => {
+      rejected(state, payload);
+    },
+
+    [updateProfile.fulfilled]: (state, { payload }) => {
+      state.profile = payload;
+      fulfilled(state, payload);
+    },
+    [updateProfile.pending]: (state) => {
+      pending(state);
+    },
+    [updateProfile.rejected]: (state, { payload }) => {
       rejected(state, payload);
     },
   },

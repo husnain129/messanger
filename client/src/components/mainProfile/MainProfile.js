@@ -1,3 +1,4 @@
+import { Spin } from "antd";
 import React, { useContext, useEffect } from "react";
 import { IconContext } from "react-icons";
 import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
@@ -12,7 +13,7 @@ import {
 import s from "./MainProfile.module.css";
 const MainProfile = ({ history }) => {
   const { user } = useContext(AuthContext);
-  const { profile, isSuccess, isError, errorMessage } =
+  const { profile, isSuccess, isError, errorMessage, isFetching } =
     useSelector(profileSelector);
   const dispatch = useDispatch();
   useEffect(() => {
@@ -33,6 +34,11 @@ const MainProfile = ({ history }) => {
 
   return (
     <div className={s.container}>
+      {isFetching && (
+        <div className={s.toast}>
+          <Spin />
+        </div>
+      )}
       <div className={s.profile}>
         <div className={s.imgContainer}>
           {profile && <img src={profile.image} alt="emma" className={s.img} />}

@@ -1,11 +1,20 @@
 import axios from "axios";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
 import ss from "../../Global.module.css";
 import useAuth from "../../hooks/useAuth";
+import {
+  clearState,
+  profileSelector,
+  updateProfile,
+} from "../../redux/ProfileSlice";
 import s from "./EditProfile.module.css";
 function EditProfile({ children }) {
+  const { profile, isSuccess, isError, errorMessage } =
+    useSelector(profileSelector);
+  const dispatch = useDispatch();
   const api = useAuth();
   const url = "https://api.cloudinary.com/v1_1/hunnykhan/image/upload";
 
@@ -15,7 +24,7 @@ function EditProfile({ children }) {
   const [sImage, setSImage] = useState([]);
   const [gallery, setGallery] = useState([]);
   const [profileImg, setProfileImg] = useState();
-  const [profile, setProfile] = useState({
+  const [profileData, setProfile] = useState({
     firstName: "",
     lastName: "",
     city: "",
@@ -39,7 +48,7 @@ function EditProfile({ children }) {
     phone,
     dob,
     gender,
-  } = profile;
+  } = profileData;
 
   function openModal() {
     setIsOpen(true);
@@ -94,15 +103,35 @@ function EditProfile({ children }) {
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
+  // const handleSubmit = () => {
+  //   (async () => {
+  //     await api
+  //       .updateProfile({ ...profileData, gallery, image: profileImg })
+  //       .then((d) => {
+  //         d?.status === "success" && history.push("/");
+  //       });
+  //   })();
+  // };
   const handleSubmit = () => {
-    (async () => {
-      await api
-        .updateProfile({ ...profile, gallery, image: profileImg })
-        .then((d) => {
-          d?.status === "success" && history.push("/");
-        });
-    })();
+    dispatch(updateProfile({ ...profileData, gallery, image: profileImg }));
   };
+
+  useEffect(() => {
+    return () => {
+      dispatch(clearState());
+    };
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (isError) {
+      console.log(errorMessage);
+    }
+    if (isSuccess) {
+      console.log("profile page user", profile);
+      dispatch(clearState());
+      history.push("/");
+    }
+  }, [isError, isSuccess, dispatch]);
 
   return (
     <div className={`${s.body} ${ss.container}`}>
