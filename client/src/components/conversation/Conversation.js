@@ -2,9 +2,12 @@ import React from "react";
 import { IconContext } from "react-icons";
 import { FiChevronDown, FiSearch } from "react-icons/fi";
 import { HiPlus } from "react-icons/hi";
+import { useSelector } from "react-redux";
+import { profileSelector } from "../../redux/ProfileSlice";
 import s from "./Conversation.module.css";
 import Card from "./conversationCard/Card";
 const Conversation = () => {
+  const { profiles } = useSelector(profileSelector);
   return (
     <div className={s.container}>
       <div className={s.searchContainer}>
@@ -39,9 +42,10 @@ const Conversation = () => {
         </div>
       </div>
       <div className={s.card}>
-        <Card />
-        <Card active={true} />
-        <Card />
+        {profiles &&
+          profiles.map((profile, id) => (
+            <Card profile={profile} key={id} active={true} />
+          ))}
       </div>
     </div>
   );

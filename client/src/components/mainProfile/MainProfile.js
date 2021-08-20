@@ -1,17 +1,17 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import { IconContext } from "react-icons";
 import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { FaFacebookF } from "react-icons/fa";
 import { useDispatch, useSelector } from "react-redux";
+import { AuthContext } from "../../context/AuthContext";
 import {
   clearState,
   getProfile,
   profileSelector,
 } from "../../redux/ProfileSlice";
-import { userSelector } from "../../redux/UserSlice";
 import s from "./MainProfile.module.css";
 const MainProfile = ({ history }) => {
-  const { user } = useSelector(userSelector);
+  const { user } = useContext(AuthContext);
   const { profile, isSuccess, isError, errorMessage, isFetching } =
     useSelector(profileSelector);
   const dispatch = useDispatch();

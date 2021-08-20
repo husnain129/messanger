@@ -53,6 +53,7 @@ export const getOthersProfile = createAsyncThunk(
   "profile/getOthersProfile",
   async (id, { rejectWithValue }) => {
     try {
+      console.log("id = ", id);
       const data = await api.get(`/profile/all/${id}`, config);
       if (data) {
         return data.profiles;

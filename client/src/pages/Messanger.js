@@ -1,18 +1,18 @@
 import React, { useContext, useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Conversation from "../components/conversation/Conversation";
 import Messages from "../components/messages/Messages";
 import Profile from "../components/profile/Profile";
 import { AuthContext } from "../context/AuthContext";
 import s from "../Global.module.css";
-import { getOthersProfile, profileSelector } from "../redux/ProfileSlice";
+import { getOthersProfile } from "../redux/ProfileSlice";
 
 const Messanger = ({ history }) => {
   const { user } = useContext(AuthContext);
-  const { profiles } = useSelector(profileSelector);
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getOthersProfile(user.id));
+    console.log("User = ", user);
+    dispatch(getOthersProfile(user._id));
   }, [history]);
 
   return (

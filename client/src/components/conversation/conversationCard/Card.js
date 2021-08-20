@@ -1,6 +1,6 @@
 import React from "react";
 import s from "./Card.module.css";
-const Card = ({ active }) => {
+const Card = ({ active, profile }) => {
   const ss = {
     bg: "#2B2F4D",
     title: "#FBFDFF",
@@ -13,11 +13,7 @@ const Card = ({ active }) => {
         <div className={s.cardHeader}>
           <div className={s.titleContainer}>
             <div className={s.imgContainer}>
-              <img
-                src="https://wallpaperaccess.com/full/275931.jpg"
-                alt="emma"
-                className={s.img}
-              />
+              <img src={profile?.image} alt="emma" className={s.img} />
               <div
                 className={s.imgDot}
                 style={{ borderColor: active && "#2B2F4D" }}
@@ -25,7 +21,7 @@ const Card = ({ active }) => {
             </div>
             <div className={s.userName}>
               <p className={s.title} style={{ color: active && ss.title }}>
-                Emma Watson
+                {profile?.firstName} {profile?.lastName}
               </p>
               <p className={s.status} style={{ color: active && ss.status }}>
                 Online
