@@ -14,10 +14,12 @@ const initialState = {
 
 export const signupUser = createAsyncThunk(
   "user/signup",
-  async (data, { rejectWithValue }) => {
+  async (dataObj, { rejectWithValue }) => {
     try {
+      const data = await api.post("/users/", dataObj, config);
+      localStorage.setItem("user", JSON.stringify(data));
       if (data) {
-        return { username: "husnain", email: "mlhlk1212" };
+        return data;
       } else {
         return rejectWithValue("data not found");
       }

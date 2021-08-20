@@ -1,4 +1,4 @@
-export const fulfilled = (state, payload) => {
+export const fulfilled = (state) => {
   state.isFetching = false;
   state.isSuccess = true;
 };
