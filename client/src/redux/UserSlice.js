@@ -16,7 +16,6 @@ export const signupUser = createAsyncThunk(
   "user/signup",
   async (data, { rejectWithValue }) => {
     try {
-      console.log("thunk data = ", data);
       if (data) {
         return { username: "husnain", email: "mlhlk1212" };
       } else {
@@ -35,7 +34,6 @@ export const loginUser = createAsyncThunk(
       const data = await api.post("/users/login", dataObj, config);
       localStorage.setItem("user", JSON.stringify(data));
       if (data) {
-        console.log("login data is success ");
         return data;
       } else {
         return rejectWithValue("login data not found");
@@ -60,7 +58,6 @@ export const userSlice = createSlice({
   extraReducers: {
     [signupUser.fulfilled]: (state, { payload }) => {
       state.user = payload;
-      console.log("payload", payload);
       fulfilled(state, payload);
     },
     [signupUser.pending]: (state) => {
@@ -70,7 +67,6 @@ export const userSlice = createSlice({
       rejected(state, payload);
     },
     [loginUser.fulfilled]: (state, { payload }) => {
-      console.log("payload", payload);
       state.user = payload;
       fulfilled(state, payload);
     },

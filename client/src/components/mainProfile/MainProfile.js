@@ -1,4 +1,3 @@
-import { Spin } from "antd";
 import React, { useContext, useEffect } from "react";
 import { IconContext } from "react-icons";
 import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
@@ -27,18 +26,12 @@ const MainProfile = ({ history }) => {
       console.log(errorMessage);
     }
     if (isSuccess) {
-      console.log("profile", profile);
       dispatch(clearState());
     }
   }, [isError, isSuccess, dispatch]);
 
   return (
     <div className={s.container}>
-      {isFetching && (
-        <div className={s.toast}>
-          <Spin />
-        </div>
-      )}
       <div className={s.profile}>
         <div className={s.imgContainer}>
           {profile && <img src={profile.image} alt="emma" className={s.img} />}

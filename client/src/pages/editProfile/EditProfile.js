@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import Modal from "../../components/modal/Modal";
 import ss from "../../Global.module.css";
-import useAuth from "../../hooks/useAuth";
 import {
   clearState,
   profileSelector,
@@ -15,7 +14,6 @@ function EditProfile({ children }) {
   const { profile, isSuccess, isError, errorMessage } =
     useSelector(profileSelector);
   const dispatch = useDispatch();
-  const api = useAuth();
   const url = "https://api.cloudinary.com/v1_1/hunnykhan/image/upload";
 
   const history = useHistory();
@@ -79,9 +77,9 @@ function EditProfile({ children }) {
       let formData;
       formData = new FormData();
       images.forEach(async (el) => {
-        formData.append("file", el.img);
-        formData.append("upload_preset", "messenger_application");
         (async () => {
+          formData.append("file", el.img);
+          formData.append("upload_preset", "messenger_application");
           try {
             axios.post(url, formData).then((res) => {
               setGallery((prev) => [...prev, res.data.secure_url]);
@@ -91,7 +89,6 @@ function EditProfile({ children }) {
           }
         })();
       });
-
       setSImage();
     }
     setLImage(null);
@@ -103,15 +100,6 @@ function EditProfile({ children }) {
     setProfile((prev) => ({ ...prev, [name]: value }));
   };
 
-  // const handleSubmit = () => {
-  //   (async () => {
-  //     await api
-  //       .updateProfile({ ...profileData, gallery, image: profileImg })
-  //       .then((d) => {
-  //         d?.status === "success" && history.push("/");
-  //       });
-  //   })();
-  // };
   const handleSubmit = () => {
     dispatch(updateProfile({ ...profileData, gallery, image: profileImg }));
   };

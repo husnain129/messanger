@@ -1,5 +1,4 @@
 export const fulfilled = (state, payload) => {
-  console.log("payload", payload);
   state.isFetching = false;
   state.isSuccess = true;
 };
@@ -11,7 +10,6 @@ export const pending = (state) => {
 };
 
 export const rejected = (state, payload) => {
-  console.log("signupUser.rejected = ", payload);
   state.isFetching = false;
   state.isSuccess = false;
   state.isError = true;

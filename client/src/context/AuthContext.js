@@ -9,18 +9,24 @@ const AuthProvider = ({ children }) => {
     user: { token },
   } = useSelector(userSelector);
 
-  const [user, setUser] = useState(
+  const [user, setUserContext] = useState(
     (typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("user"))
       : "") || ""
   );
-
   const [_token, setToken] = useState(user.token || token);
 
   const [profile, setProfile] = useState();
   return (
     <AuthContext.Provider
-      value={{ _token, setToken, user, setUser, profile, setProfile }}
+      value={{
+        _token,
+        setToken,
+        user,
+        setUserContext,
+        profile,
+        setProfile,
+      }}
     >
       {children}
     </AuthContext.Provider>

@@ -1,11 +1,13 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { AuthContext } from "../../../context/AuthContext";
 import { clearState, loginUser, userSelector } from "../../../redux/UserSlice";
 import s from "./Login.module.css";
 
 function Login({ history }) {
   const { user, isSuccess, isError, errorMessage } = useSelector(userSelector);
+  const { setToken, setUserContext } = useContext(AuthContext);
   const dispatch = useDispatch();
   const [userd, setUser] = useState({
     email: "",
@@ -34,22 +36,12 @@ function Login({ history }) {
       console.log(errorMessage);
     }
     if (isSuccess) {
-      console.log("login page user", user);
       dispatch(clearState());
+      setToken(user.token);
+      setUserContext(user);
       history.push("/");
     }
   }, [isError, isSuccess, dispatch]);
-
-  // const handleSubmit = () => {
-  //   (async () => {
-  //     await api.login(user).then((d) => {
-  //       if ((d.status = "success")) {
-  //         setToken(d.token);
-  //         history.push("/");
-  //       }
-  //     });
-  //   })();
-  // };
 
   return (
     <div className={s.container}>

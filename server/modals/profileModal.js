@@ -21,7 +21,6 @@ const profileSchema = new Schema(
     dob: String,
     gender: {
       type: String,
-      enum: ["male", "female"],
     },
   },
   {

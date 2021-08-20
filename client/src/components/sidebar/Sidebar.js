@@ -3,18 +3,17 @@ import { IconContext } from "react-icons";
 import { AiFillHome, AiFillSetting } from "react-icons/ai";
 import { BsFillInboxFill } from "react-icons/bs";
 import { IoSunny } from "react-icons/io5";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { profileSelector } from "../../redux/ProfileSlice";
 import s from "./Sidebar.module.css";
 const Sidebar = () => {
+  const { profile } = useSelector(profileSelector);
   return (
     <div className={s.sidebar}>
       <div className={s.container}>
         <div className={s.imgContainer}>
-          <img
-            src="https://wallpaperaccess.com/full/275931.jpg"
-            alt="emma"
-            className={s.img}
-          />
+          {profile && <img src={profile?.image} alt="emma" className={s.img} />}
           <div className={s.imgDot} />
         </div>
         <div className={s.iconContainer}>
