@@ -1,31 +1,26 @@
 import React, { useContext, useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { AuthContext } from "../../../context/AuthContext";
-import { userSelector } from "../../../redux/UserSlice";
+import { clearState, signupUser, userSelector } from "../../../redux/UserSlice";
 import s from "./SignUp.module.css";
 function SignUp({ history }) {
   const { user, isSuccess, isError, errorMessage } = useSelector(userSelector);
   const { setToken, setUserContext } = useContext(AuthContext);
+  const dispatch = useDispatch();
 
   const [userD, setUser] = useState({
-    firstName: "",
-    lastName: "",
     username: "",
     email: "",
     password: "",
     passwordConfirm: "",
-    gender: "",
   });
 
   const {
-    firstName,
-    lastName,
     username,
     email,
     password,
     passwordConfirm,
-    gender,
   } = userD;
 
   const handleChange = (e) => {
@@ -35,7 +30,7 @@ function SignUp({ history }) {
   };
 
   const handleSubmit = () => {
-    dispatch(loginUser(userd));
+    dispatch(signupUser(userD));
   };
 
   useEffect(() => {
@@ -52,7 +47,7 @@ function SignUp({ history }) {
       dispatch(clearState());
       setToken(user.token);
       setUserContext(user);
-      history.push("/");
+      history.push("/editProfile");
     }
   }, [isError, isSuccess, dispatch]);
 
@@ -60,26 +55,7 @@ function SignUp({ history }) {
     <div className={s.container}>
       <div className={s.divider}>
         <div className={s.form}>
-          <div className={s.flex}>
-            <p>First Name</p>
-            <input
-              name="firstName"
-              onChange={handleChange}
-              type="text"
-              value={firstName}
-              className={s.input_long}
-            />
-          </div>
-          <div className={s.flex}>
-            <p>Last Name</p>
-            <input
-              name="lastName"
-              onChange={handleChange}
-              type="text"
-              value={lastName}
-              className={s.input_long}
-            />
-          </div>
+          
           <div className={s.flex}>
             <p>Username</p>
             <input
@@ -119,19 +95,6 @@ function SignUp({ history }) {
               value={passwordConfirm}
               className={s.input_long}
             />
-          </div>
-          <div className={s.flex}>
-            <p>Gender</p>
-            <select
-              className={s.select}
-              value={gender}
-              name="gender"
-              onChange={handleChange}
-            >
-              <option>Gender</option>
-              <option>male</option>
-              <option>female</option>
-            </select>
           </div>
           <div className={s.btn} onClick={handleSubmit}>
             <p>Sign Up</p>

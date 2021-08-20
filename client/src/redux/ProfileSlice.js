@@ -6,6 +6,7 @@ const api = userApi();
 
 const initialState = {
   profile: "",
+  profiles: [],
   isFetching: false,
   isSuccess: false,
   isError: false,
@@ -48,6 +49,23 @@ export const updateProfile = createAsyncThunk(
   }
 );
 
+export const getOthersProfile = createAsyncThunk(
+  "profile/getOthersProfile",
+  async (id, { rejectWithValue }) => {
+    try {
+      const data = await api.get(`/profile/all/${id}`, config);
+      if (data) {
+        return data.profiles;
+      } else {
+        console.log("profile data not found");
+        return rejectWithValue("profile data not found");
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+);
+
 export const profileSlice = createSlice({
   name: "profile",
   initialState,
@@ -79,6 +97,17 @@ export const profileSlice = createSlice({
       pending(state);
     },
     [updateProfile.rejected]: (state, { payload }) => {
+      rejected(state, payload);
+    },
+
+    [getOthersProfile.fulfilled]: (state, { payload }) => {
+      state.profiles = payload;
+      fulfilled(state, payload);
+    },
+    [getOthersProfile.pending]: (state) => {
+      pending(state);
+    },
+    [getOthersProfile.rejected]: (state, { payload }) => {
       rejected(state, payload);
     },
   },

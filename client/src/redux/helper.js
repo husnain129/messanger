@@ -26,6 +26,8 @@ const { token } = localStorage.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
   : "";
 
+console.log(token);
+
 export const authConfig = {
   headers: {
     "Content-Type": "application/json",

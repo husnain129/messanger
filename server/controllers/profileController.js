@@ -30,11 +30,12 @@ exports.getProfile = catchAsync(async (req, res, next) => {
     }
 });
 
-exports.getAllProfiles = catchAsync(async (req, res, next) => {
+exports.get_others_profile = catchAsync(async (req, res, next) => {
     const profiles = await Profile.find({}).populate("user", "_id username");
+    let data = profiles.filter(e=>parseInt(e.user._id) !== parseInt(req.params.id))    
     res.status(200).json({
         status: "success",
-        profiles,
+        profiles:data,
     });
 });
 
@@ -58,21 +59,6 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
                 gender,
             } = req.body;
 
-            // const filteredBody = filterObj(
-            //   req.body,
-            //   "firstName",
-            //   "lastName",
-            //   "image",
-            //   "gallery",
-            //   "city",
-            //   "country",
-            //   "faceBook",
-            //   "gitHub",
-            //   "twitter",
-            //   "phone",
-            //   "dob",
-            //   "gender"
-            // );
             const updatedProfile = await Profile.findByIdAndUpdate(
                 profile._id, {
                     firstName: firstName || profile.firstName,
@@ -113,8 +99,16 @@ exports.updateProfile = catchAsync(async (req, res, next) => {
                 dob,
                 gender,
             } = req.body;
-            console.log(image);
-            console.log(gallery);
+
+            console.log(lastName,
+                image,
+                gallery,
+                city,
+                country,
+                faceBook,
+                gitHub,
+                twitter,
+                phone)
 
             const newProfile = new Profile({
                 user: req.user._id,
