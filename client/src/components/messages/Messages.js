@@ -1,7 +1,8 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { IconContext } from "react-icons";
 import { RiSendPlaneFill } from "react-icons/ri";
+import { io } from "socket.io-client";
 import { format } from "timeago.js";
 import { AuthContext } from "../../context/AuthContext";
 import { ConversationContext } from "../../context/ConversationContext";
@@ -15,7 +16,10 @@ const Messages = () => {
   const { currentMembers } = useContext(ConversationContext);
   const [messages, setMessages] = useState();
   const [newMessage, setNewMessage] = useState("");
-  console.log("currentConversation", currentMembers);
+  const [arrivalMessage, setArrivalMessage] = useState(null);
+  const scrollRef = useRef();
+  const socket = useRef();
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     const message = {
@@ -23,6 +27,12 @@ const Messages = () => {
       text: newMessage,
       conversationId: currentMembers._id,
     };
+    const receiverId = currentMembers.members.find((m) => m.id !== user?._id);
+    socket.current.emit("sendMessage", {
+      senderId: user?._id,
+      receiverId,
+      text: newMessage,
+    });
     try {
       const { data } = await axios.post(
         "http://localhost:3300/api/v1/messages",
@@ -30,11 +40,35 @@ const Messages = () => {
       );
       setMessages([...messages, data]);
       setNewMessage("");
-      console.log("data", data);
     } catch (error) {
       console.log(error);
     }
   };
+
+  useEffect(() => {
+    socket.current = io("ws://localhost:8900");
+    socket.current.on("getMessage", (data) => {
+      setArrivalMessage({
+        sender: data.senderId,
+        text: data?.text,
+        createdAt: Date.now(),
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    arrivalMessage &&
+      currentMembers.members.includes(arrivalMessage.sender) &&
+      setMessages((prev) => [...prev, arrivalMessage]);
+  }, [arrivalMessage, currentMembers]);
+
+  useEffect(() => {
+    socket.current.emit("addUser", user._id);
+    socket.current.on("getUsers", (users) => {
+      console.log("users", users);
+    });
+  }, [user]);
+
   useEffect(() => {
     (async () => {
       try {
@@ -50,6 +84,10 @@ const Messages = () => {
     })();
   }, [currentMembers]);
 
+  useEffect(() => {
+    scrollRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div
       className={s.messages}
@@ -61,7 +99,18 @@ const Messages = () => {
       <div className={s.messages__content}>
         {messages &&
           messages.map((msg, index) => (
-            <Message msg={msg} active={msg.sender === user._id} />
+            <div
+              key={index}
+              ref={scrollRef}
+              style={{
+                width: "100%",
+                display: "flex",
+                align: "center",
+                justifyContent: "center",
+              }}
+            >
+              <Message msg={msg} key={index} active={msg.sender === user._id} />
+            </div>
           ))}
       </div>
       <div className={s.inputContainer}>
@@ -84,7 +133,7 @@ const Messages = () => {
 
 const Message = ({ msg, active }) => {
   return (
-    <div className={`${s.msg}  ${active && s.own}`}>
+    <div className={` ${s.msg} ${active && s.own}`}>
       <p className={`${s.msgVal} ${active && s.msgOwn}`}>{msg?.text}</p>
       <p className={s.msgTime}>{format(msg.createdAt)}</p>
     </div>

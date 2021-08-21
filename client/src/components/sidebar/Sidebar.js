@@ -1,19 +1,29 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { IconContext } from "react-icons";
 import { AiFillHome, AiFillSetting } from "react-icons/ai";
 import { BsFillInboxFill } from "react-icons/bs";
 import { FiLogOut } from "react-icons/fi";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { profileSelector } from "../../redux/ProfileSlice";
+import { AuthContext } from "../../context/AuthContext";
+import { getProfile, profileSelector } from "../../redux/ProfileSlice";
 import s from "./Sidebar.module.css";
 const Sidebar = () => {
   const { profile } = useSelector(profileSelector);
+  const dispatch = useDispatch();
   const logout = () => {
     console.log("logout");
     localStorage.removeItem("user");
     window.location.reload();
   };
+  const { user } = useContext(AuthContext);
+  const { id } = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    if (!profile) {
+      dispatch(getProfile(user._id || id));
+    }
+  }, []);
 
   return (
     <div className={s.sidebar}>
