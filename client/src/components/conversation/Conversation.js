@@ -1,13 +1,42 @@
-import React from "react";
+import axios from "axios";
+import React, { useContext, useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { FiChevronDown, FiSearch } from "react-icons/fi";
 import { HiPlus } from "react-icons/hi";
-import { useSelector } from "react-redux";
-import { profileSelector } from "../../redux/ProfileSlice";
+import { AuthContext } from "../../context/AuthContext";
+import { ConversationContext } from "../../context/ConversationContext";
 import s from "./Conversation.module.css";
 import Card from "./conversationCard/Card";
-const Conversation = () => {
-  const { profiles } = useSelector(profileSelector);
+const Conversation = ({ conversation }) => {
+  const { setCurrentConversation } = useContext(ConversationContext);
+  const { user } = useContext(AuthContext);
+  const [friends, setFriends] = useState([]);
+
+  const getProfile = async (c) => {
+    let friendId = c?.members.find((i) => i !== user._id);
+    try {
+      const { data } = await axios.get(
+        `http://localhost:3300/api/v1/profile/${friendId}`
+      );
+      setCurrentConversation(data.profile);
+    } catch (error) {
+      console.log("error = ", error);
+    }
+  };
+  useEffect(() => {
+    conversation.forEach((c) => {
+      let friendId = c?.members.find((i) => i !== user._id);
+      (async () => {
+        const { data } = await axios.get(
+          `http://localhost:3300/api/v1/profile/${friendId}`
+        );
+        setFriends((prev) => [...prev, { data, member: c }]);
+      })();
+    });
+    getProfile(conversation[0]);
+  }, [conversation]);
+  friends && console.log("friend = ", friends);
+
   return (
     <div className={s.container}>
       <div className={s.searchContainer}>
@@ -42,9 +71,11 @@ const Conversation = () => {
         </div>
       </div>
       <div className={s.card}>
-        {profiles &&
-          profiles.map((profile, id) => (
-            <Card profile={profile} key={id} active={true} />
+        {friends &&
+          friends.map((c, id) => (
+            <div onClick={() => getProfile(c.member)}>
+              <Card conversation={c.data.profile} key={id} active={true} />
+            </div>
           ))}
       </div>
     </div>

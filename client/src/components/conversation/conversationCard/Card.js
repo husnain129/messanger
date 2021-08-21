@@ -1,12 +1,14 @@
-import React from "react";
+import React, { useState } from "react";
 import s from "./Card.module.css";
-const Card = ({ active, profile }) => {
+const Card = ({ active, conversation }) => {
+  const [profile, setProfile] = useState(conversation);
   const ss = {
     bg: "#2B2F4D",
     title: "#FBFDFF",
     text: "#bdbec4",
     status: "#81869c",
   };
+
   return (
     <div className={s.container}>
       <div className={s.card} style={{ backgroundColor: active && ss.bg }}>

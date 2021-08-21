@@ -2,14 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { FaFacebookF } from "react-icons/fa";
-import { useSelector } from "react-redux";
+import { ConversationContext } from "../../context/ConversationContext";
 import { StyleContext } from "../../context/StyleContext";
-import { profileSelector } from "../../redux/ProfileSlice";
 import s from "./Profile.module.css";
 const Profile = ({ history }) => {
+  const { currentConversation } = useContext(ConversationContext);
   const { messagesWidth } = useContext(StyleContext);
   const [dis, setDis] = useState("none");
-  const { profiles } = useSelector(profileSelector);
 
   useEffect(() => {
     messagesWidth
@@ -32,15 +31,15 @@ const Profile = ({ history }) => {
       }}
     >
       <div className={s.imgContainer}>
-        <img src={profiles[0]?.image} alt="emma" className={s.img} />
+        <img src={currentConversation?.image} alt="emma" className={s.img} />
         <div className={s.imgDot} />
       </div>
       <div className={s.Profile_info}>
         <p className={s.Profile_info__title}>
-          {profiles[0]?.firstName} {profiles[0]?.lastName}
+          {currentConversation?.firstName} {currentConversation?.lastName}
         </p>
         <p className={s.Profile_info__city}>
-          {profiles[0]?.city}, {profiles[0]?.country}
+          {currentConversation?.city}, {currentConversation?.country}
         </p>
         <p className={s.Profile_info__desc}>
           How people to build website and apps + grow awareness in social media.
@@ -66,20 +65,20 @@ const Profile = ({ history }) => {
       <div className={s.line} />
       <div className={s.contact}>
         <p>
-          Phone:<span>{profiles[0]?.phone}</span>
+          Phone:<span>{currentConversation?.phone}</span>
         </p>
         <p>
           Email:<span>mlhlk1212@gmail.com</span>
         </p>
         <p>
-          DOB:<span>{profiles[0]?.dob}</span>
+          DOB:<span>{currentConversation?.dob}</span>
         </p>
       </div>
       <div className={s.line} />
       <div className={s.mediaContainer}>
         <p>Media</p>
         <div className={s.mediaImage}>
-          {profiles[0]?.gallery?.map((image, i) => (
+          {currentConversation?.gallery?.map((image, i) => (
             <img key={i} src={image} alt="emma watson" />
           ))}
         </div>

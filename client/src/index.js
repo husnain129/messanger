@@ -4,6 +4,7 @@ import { Provider } from "react-redux";
 import App from "./App";
 import { store } from "./app/store";
 import { AuthProvider } from "./context/AuthContext";
+import { ConversationProvider } from "./context/ConversationContext";
 import { StyleProvider } from "./context/StyleContext";
 import "./index.css";
 import reportWebVitals from "./reportWebVitals";
@@ -12,7 +13,9 @@ ReactDOM.render(
   <Provider store={store}>
     <StyleProvider>
       <AuthProvider>
-        <App />
+        <ConversationProvider>
+          <App />
+        </ConversationProvider>
       </AuthProvider>
     </StyleProvider>
   </Provider>,

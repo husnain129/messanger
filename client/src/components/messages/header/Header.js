@@ -1,25 +1,23 @@
 import React, { useContext } from "react";
 import { IconContext } from "react-icons";
 import { HiLockClosed, HiLockOpen } from "react-icons/hi";
-import { useSelector } from "react-redux";
+import { ConversationContext } from "../../../context/ConversationContext";
 import { StyleContext } from "../../../context/StyleContext";
-import { profileSelector } from "../../../redux/ProfileSlice";
 import s from "./Header.module.css";
 const Header = ({ active }) => {
-  const { profiles } = useSelector(profileSelector);
-
+  const { currentConversation } = useContext(ConversationContext);
   const { messagesWidth, setMessagesWidth } = useContext(StyleContext);
   return (
     <div className={s.container}>
       <div className={s.header}>
         <div className={s.header_left}>
           <div className={s.imgContainer}>
-            <img src={profiles[0]?.image} alt="." className={s.img} />
+            <img src={currentConversation?.image} alt="." className={s.img} />
             <div className={s.imgDot} />
           </div>
           <div className={s.userInfo}>
             <p className={s.title}>
-              {profiles[0]?.firstName} {profiles[0]?.lastName}
+              {currentConversation?.firstName} {currentConversation?.lastName}
             </p>
             {active ? (
               <p className={s.status}>Online</p>

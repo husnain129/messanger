@@ -12,6 +12,7 @@ exports.getProfile = catchAsync(async (req, res, next) => {
       "_id username"
     );
     if (profile) {
+      console.log(profile);
       res.status(200).json({
         status: "success",
         profile,
