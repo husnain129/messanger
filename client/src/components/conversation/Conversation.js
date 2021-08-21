@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { IconContext } from "react-icons";
 import { FiChevronDown, FiSearch } from "react-icons/fi";
 import { HiPlus } from "react-icons/hi";
@@ -8,9 +8,9 @@ import { ConversationContext } from "../../context/ConversationContext";
 import s from "./Conversation.module.css";
 import Card from "./conversationCard/Card";
 const Conversation = ({ conversation }) => {
-  const { setCurrentConversation } = useContext(ConversationContext);
+  const { setCurrentConversation, setCurrentMembers, friends, setFriends } =
+    useContext(ConversationContext);
   const { user } = useContext(AuthContext);
-  const [friends, setFriends] = useState([]);
 
   const getProfile = async (c) => {
     let friendId = c?.members.find((i) => i !== user._id);
@@ -18,21 +18,26 @@ const Conversation = ({ conversation }) => {
       const { data } = await axios.get(
         `http://localhost:3300/api/v1/profile/${friendId}`
       );
+      setCurrentMembers(c);
       setCurrentConversation(data.profile);
     } catch (error) {
       console.log("error = ", error);
     }
   };
   useEffect(() => {
-    conversation.forEach((c) => {
-      let friendId = c?.members.find((i) => i !== user._id);
-      (async () => {
-        const { data } = await axios.get(
-          `http://localhost:3300/api/v1/profile/${friendId}`
-        );
-        setFriends((prev) => [...prev, { data, member: c }]);
-      })();
-    });
+    if (friends.length === 0) {
+      console.log("asdlldjalsjdlaksjdljl");
+      conversation.forEach((c) => {
+        let friendId = c?.members.find((i) => i !== user._id);
+        (async () => {
+          const { data } = await axios.get(
+            `http://localhost:3300/api/v1/profile/${friendId}`
+          );
+          setFriends((prev) => [...prev, { data, member: c }]);
+        })();
+      });
+    }
+
     getProfile(conversation[0]);
   }, [conversation]);
   friends && console.log("friend = ", friends);
