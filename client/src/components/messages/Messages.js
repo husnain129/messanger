@@ -54,6 +54,9 @@ const Messages = () => {
         createdAt: Date.now(),
       });
     });
+    if (arrivalMessage) {
+      socket.current.on("getMessage");
+    }
   }, []);
 
   useEffect(() => {

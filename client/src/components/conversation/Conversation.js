@@ -1,5 +1,5 @@
 import axios from "axios";
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { FiChevronDown, FiSearch } from "react-icons/fi";
 import { HiPlus } from "react-icons/hi";
@@ -11,6 +11,7 @@ const Conversation = ({ conversation }) => {
   const { setCurrentConversation, setCurrentMembers, friends, setFriends } =
     useContext(ConversationContext);
   const { user } = useContext(AuthContext);
+  const [select, setSelect] = useState(0);
 
   const getProfile = async (c) => {
     let friendId = c?.members.find((i) => i !== user._id);
@@ -26,7 +27,6 @@ const Conversation = ({ conversation }) => {
   };
   useEffect(() => {
     if (friends.length === 0) {
-      console.log("asdlldjalsjdlaksjdljl");
       conversation.forEach((c) => {
         let friendId = c?.members.find((i) => i !== user._id);
         (async () => {
@@ -40,7 +40,6 @@ const Conversation = ({ conversation }) => {
 
     getProfile(conversation[0]);
   }, [conversation]);
-  friends && console.log("friend = ", friends);
 
   return (
     <div className={s.container}>
@@ -78,8 +77,18 @@ const Conversation = ({ conversation }) => {
       <div className={s.card}>
         {friends &&
           friends.map((c, id) => (
-            <div onClick={() => getProfile(c.member)}>
-              <Card conversation={c.data.profile} key={id} active={true} />
+            <div
+              onClick={() => {
+                getProfile(c.member);
+                setSelect(friends.indexOf(c));
+              }}
+            >
+              <Card
+                key={id}
+                id={id}
+                select={select}
+                conversation={c.data.profile}
+              />
             </div>
           ))}
       </div>

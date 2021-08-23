@@ -1,21 +1,14 @@
 import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
-// import { useDispatch } from "react-redux";
 import Conversation from "../components/conversation/Conversation";
 import Messages from "../components/messages/Messages";
 import Profile from "../components/profile/Profile";
 import { AuthContext } from "../context/AuthContext";
 import s from "../Global.module.css";
-// import { getOthersProfile } from "../redux/ProfileSlice";
 
 const Messanger = ({ history }) => {
   const { user } = useContext(AuthContext);
   const [conversation, setConversation] = useState([]);
-  // const dispatch = useDispatch();
-  // useEffect(() => {
-  //   console.log("User = ", user);
-  //   dispatch(getOthersProfile(user._id));
-  // }, [history]);
 
   useEffect(() => {
     const getConversation = async () => {
