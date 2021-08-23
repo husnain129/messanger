@@ -115,7 +115,6 @@ function EditProfile({ children }) {
       console.log(errorMessage);
     }
     if (isSuccess) {
-      console.log("profile page user", profile);
       dispatch(clearState());
       history.push("/");
     }

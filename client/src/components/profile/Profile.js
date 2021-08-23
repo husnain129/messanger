@@ -2,11 +2,13 @@ import React, { useContext, useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { AiFillInstagram, AiOutlineTwitter } from "react-icons/ai";
 import { FaFacebookF } from "react-icons/fa";
+import { Link } from "react-router-dom";
 import { ConversationContext } from "../../context/ConversationContext";
 import { StyleContext } from "../../context/StyleContext";
 import s from "./Profile.module.css";
 const Profile = ({ history }) => {
-  const { currentConversation } = useContext(ConversationContext);
+  const { currentConversation, setCurrentProfile } =
+    useContext(ConversationContext);
   const { messagesWidth } = useContext(StyleContext);
   const [dis, setDis] = useState("none");
 
@@ -35,9 +37,15 @@ const Profile = ({ history }) => {
         <div className={s.imgDot} />
       </div>
       <div className={s.Profile_info}>
-        <p className={s.Profile_info__title}>
-          {currentConversation?.firstName} {currentConversation?.lastName}
-        </p>
+        <Link
+          to="/"
+          className={s.Profile_info__title}
+          onClick={() => setCurrentProfile(currentConversation)}
+        >
+          <p>
+            {currentConversation?.firstName} {currentConversation?.lastName}
+          </p>
+        </Link>
         <p className={s.Profile_info__city}>
           {currentConversation?.city}, {currentConversation?.country}
         </p>

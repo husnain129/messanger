@@ -20,7 +20,7 @@ const Conversation = ({ conversation }) => {
         `http://localhost:3300/api/v1/profile/${friendId}`
       );
       setCurrentMembers(c);
-      setCurrentConversation(data.profile);
+      return data;
     } catch (error) {
       console.log("error = ", error);
     }
@@ -37,7 +37,6 @@ const Conversation = ({ conversation }) => {
         })();
       });
     }
-
     getProfile(conversation[0]);
   }, [conversation]);
 
@@ -81,6 +80,7 @@ const Conversation = ({ conversation }) => {
               onClick={() => {
                 getProfile(c.member);
                 setSelect(friends.indexOf(c));
+                setCurrentConversation(c.data.profile);
               }}
             >
               <Card

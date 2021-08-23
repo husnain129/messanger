@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { ConversationContext } from "../../../context/ConversationContext";
 import s from "./Card.module.css";
 const Card = ({ select, conversation, id }) => {
   const [profile, setProfile] = useState(conversation);
+  const { checkOnlineUser } = useContext(ConversationContext);
 
   const ss = {
     bg: "#2B2F4D",
     title: "#FBFDFF",
     text: "#bdbec4",
-    status: "#81869c",
+    status: "#a5a9bd",
   };
 
   return (
@@ -22,7 +24,12 @@ const Card = ({ select, conversation, id }) => {
               <img src={profile?.image} alt="emma" className={s.img} />
               <div
                 className={s.imgDot}
-                style={{ borderColor: select === id && "#2B2F4D" }}
+                style={{
+                  borderColor: select === id && "#2B2F4D",
+                  backgroundColor: checkOnlineUser(profile?.user._id)
+                    ? "#2fdb5d"
+                    : "#757c70",
+                }}
               />
             </div>
             <div className={s.userName}>
@@ -36,12 +43,12 @@ const Card = ({ select, conversation, id }) => {
                 className={s.status}
                 style={{ color: select === id && ss.status }}
               >
-                Online
+                {checkOnlineUser(profile?.user._id) ? "online" : "Offline"}
               </p>
             </div>
           </div>
           <p className={s.time} style={{ color: select === id && ss.status }}>
-            3h ago
+            {checkOnlineUser(profile?.user._id) ? "now" : "3h ago"}
           </p>
         </div>
         {/* <div className={s.cardFooter}>

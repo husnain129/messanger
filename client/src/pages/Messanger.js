@@ -16,7 +16,6 @@ const Messanger = ({ history }) => {
         const { data } = await axios.get(
           `http://localhost:3300/api/v1/conversations/${user._id}`
         );
-        console.log("Conversation = ", data);
         setConversation(data);
       } catch (error) {
         console.log("conversation error: ", error);

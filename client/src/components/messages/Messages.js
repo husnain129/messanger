@@ -13,7 +13,8 @@ import s from "./Messages.module.css";
 const Messages = () => {
   const { user } = useContext(AuthContext);
   const { messagesWidth } = useContext(StyleContext);
-  const { currentMembers } = useContext(ConversationContext);
+  const { currentMembers, clearProfiles, setOnlineUsers } =
+    useContext(ConversationContext);
   const [messages, setMessages] = useState();
   const [newMessage, setNewMessage] = useState("");
   const [arrivalMessage, setArrivalMessage] = useState(null);
@@ -46,6 +47,7 @@ const Messages = () => {
   };
 
   useEffect(() => {
+    clearProfiles();
     socket.current = io("ws://localhost:8900");
     socket.current.on("getMessage", (data) => {
       setArrivalMessage({
@@ -68,7 +70,7 @@ const Messages = () => {
   useEffect(() => {
     socket.current.emit("addUser", user._id);
     socket.current.on("getUsers", (users) => {
-      console.log("users", users);
+      setOnlineUsers(users);
     });
   }, [user]);
 
