@@ -77,6 +77,7 @@ const Conversation = ({ conversation }) => {
         {friends &&
           friends.map((c, id) => (
             <div
+              key={id}
               onClick={() => {
                 getProfile(c.member);
                 setSelect(friends.indexOf(c));

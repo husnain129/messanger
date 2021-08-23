@@ -25,10 +25,6 @@ const Profile = ({ history }) => {
   }, [messagesWidth]);
 
   useEffect(() => {
-    setDis("flex");
-  }, [history]);
-
-  useEffect(() => {
     if (friends.length !== 0 && user) {
       if (Object.keys(profile).length === 0 && profile.constructor === Object) {
         let friendId = friends[0]?.member.members.find((i) => i !== user._id);
