@@ -16,7 +16,6 @@ const Header = ({ active }) => {
     if (friends.length !== 0 && user) {
       if (Object.keys(profile).length === 0 && profile.constructor === Object) {
         let friendId = friends[0]?.member.members.find((i) => i !== user._id);
-        console.log("friendId", friendId);
         (async () => {
           const { data } = await axios.get(
             `http://localhost:3300/api/v1/profile/${friendId}`
