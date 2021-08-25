@@ -2,9 +2,11 @@ import axios from "axios";
 import React, { useContext, useEffect, useState } from "react";
 import { IconContext } from "react-icons";
 import { HiLockClosed, HiLockOpen } from "react-icons/hi";
+import { IoIosCall } from "react-icons/io";
 import { AuthContext } from "../../../context/AuthContext";
 import { ConversationContext } from "../../../context/ConversationContext";
 import { StyleContext } from "../../../context/StyleContext";
+import VideoCall from "../../videoCall/VideoCall";
 import s from "./Header.module.css";
 const Header = ({ active }) => {
   const { currentConversation, checkOnlineUser, friends } =
@@ -12,6 +14,7 @@ const Header = ({ active }) => {
   const { messagesWidth, setMessagesWidth } = useContext(StyleContext);
   const [profile, setProfile] = useState(currentConversation);
   const { user } = useContext(AuthContext);
+  const [call, setCall] = useState(false);
   useEffect(() => {
     if (friends.length !== 0 && user) {
       if (Object.keys(profile).length === 0 && profile.constructor === Object) {
@@ -58,6 +61,9 @@ const Header = ({ active }) => {
         </div>
         <div className={s.header_right}>
           <IconContext.Provider value={{ className: s.icons }}>
+            <IoIosCall size={26} onClick={() => setCall(true)} />
+          </IconContext.Provider>
+          <IconContext.Provider value={{ className: s.icons }}>
             {messagesWidth ? (
               <>
                 <HiLockClosed
@@ -76,6 +82,7 @@ const Header = ({ active }) => {
           </IconContext.Provider>
         </div>
       </div>
+      {call && <VideoCall call={call} setCall={setCall} />}
     </div>
   );
 };
